@@ -10,20 +10,23 @@ public class Maze {
     private MazeElement[][] maze;
     private MazeElement[][] mazeMask;
     private Player player;
-    private Cat cat;
+    private Cat cat1;
+    private Cat cat2;
+    private Cat cat3;
+    private int[] cheesePosition;
+    private Random random = new Random();
 
     public Maze(int length, int width) {
         this.length = length;
         this.width = width;
         this.maze = new MazeElement[width][length];
         this.mazeMask = new MazeElement[width][length];
+        this.cheesePosition = new int[2];
         initMaze();
         mazeGenerate();
         checkCorners();
         mazeMaskGenerate();
-        materializePlayer();
-        materializeCat();
-        materializeCheese();
+        materializeParticipants();
     }
 
     private void checkCorners() {
@@ -36,20 +39,35 @@ public class Maze {
         }
     }
 
-    private void materializeCheese() {
-
-    }
-
-    private void materializeCat() {
-    }
-
-    private void materializePlayer() {
+    private void materializeParticipants() {
         assert !(maze[1][1] == MazeElement.WALL
                 || maze[1][length-2] == MazeElement.WALL
                 || maze[width-2][1] == MazeElement.WALL
                 || maze[width-2][length-2] == MazeElement.WALL);
 
-        
+        player = new Player(1, 1, false);
+        cat1 = new Cat(1, length-2);
+        cat2 = new Cat(width-2, 1);
+        cat3 = new Cat(width-2, length-2);
+
+        maze[1][1] = MazeElement.PLAYER;
+        maze[1][length-2] = MazeElement.CAT;
+        maze[width-2][1] = MazeElement.CAT;
+        maze[width-2][length-2] = MazeElement.CAT;
+
+        int randX = random.nextInt(length-2);
+        int randY = random.nextInt(width-2);
+        while (maze[randY][randX] == MazeElement.WALL
+                || (randX == 1 && randY == 1)
+                || (randX == 1 && randY == length-2)
+                || (randX == width-2 && randY == 1) 
+                || (randX == width-2 && randY == length-2)) {
+            randX = random.nextInt(length-2);
+            randY = random.nextInt(width-2);
+        }
+        cheesePosition[0] = randX;
+        cheesePosition[1] = randY;
+        maze[randX][randY] = MazeElement.CHEESE;
     }
 
     private void mazeMaskGenerate() {
@@ -79,7 +97,6 @@ public class Maze {
         maze[x][y] = MazeElement.PASSAGE;
         wallPositions.add(new int[]{x, y+1});
         wallPositions.add(new int[]{x+1, y});
-        Random random = new Random();
         while (!wallPositions.isEmpty()) {
             int randNum = random.nextInt(wallPositions.size());
             int[] wallAndOppositeCell =  wallPositions.get(randNum);
@@ -121,17 +138,8 @@ public class Maze {
         }
     }
 
-    public void printMaze() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < length; j++) {
-                if (maze[i][j] == MazeElement.WALL) {
-                    System.out.print("#");
-                } else {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
+    public int[] getCheesePosition() {
+        return cheesePosition;
     }
 
     public int getLength() {

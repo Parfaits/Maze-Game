@@ -4,6 +4,11 @@ public class Cat {
     int x;
     int y;
 
+    public Cat(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void setPostion(int x, int y) {
         this.x = x;
         this.y = y;
