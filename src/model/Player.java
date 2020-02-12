@@ -1,19 +1,26 @@
 package model;
 
 public class Player {
-    int x;
-    int y;
+    private int xPos;
+    private int yPos;
+    private boolean state;
+
+    public Player(int xPos, int yPos, boolean state) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.state = state;
+    }
 
     public void setPostion(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
     public int getX() {
-        return x;
+        return xPos;
     }
 
     public int getY() {
-        return y;
+        return yPos;
     }
 }
