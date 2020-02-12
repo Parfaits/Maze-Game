@@ -77,7 +77,7 @@ public class Player {
 
 
     // If player position == cat position player isDead true.
-    public boolean checkCurrentPosition(boolean isDead, int[] playerPos, int[] catPos){
+    public boolean checkCurrentPosition(boolean isDead, int[] catPos){
         return getPlayerPosition() == catPos;
     }
 
