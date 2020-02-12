@@ -55,11 +55,18 @@ public class MazeGame {
         board[randX][randY] = MazeElement.CHEESE;
     }
 
-    public void movementCommand(Direction direction) {
-        switch (direction) {
-            case NORTH:
-                break;
-        }
+    // TODO: 2020-02-12 Player.class && Cat.class
+    public void movementCommand(String direction) {
+        assert isMoveValid(direction);
+        player.move(board, direction);
+        cat1.move(board);
+        cat2.move(board);
+        cat3.move(board);
+    }
+
+    // TODO: 2020-02-12 Player.class
+    public boolean isMoveValid(String direction) {
+        return onMovementResult = player.checkValidMove(board, direction);
     }
 
     public boolean isPlayerDead() {

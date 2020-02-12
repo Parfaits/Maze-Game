@@ -51,7 +51,8 @@ public class Player {
     }
 
     // saves position of player's x and y coordinates upon keyInput - use setPosition() to reset position.
-    public void movement(String keyInput){
+    // TODO: 2020-02-12 Also update the board.
+    void move(MazeElement[][] board, String keyInput){
         switch (keyInput) {
             case "w":
                 yPos += 1;
@@ -75,6 +76,10 @@ public class Player {
         }
     }
 
+    // TODO: 2020-02-12 Use board to check if the move is valid.
+    void checkValidMove(MazeElement[][] board, String move) {
+
+    }
 
     // If player position == cat position player isDead true.
     public boolean checkCurrentPosition(boolean isDead, int[] catPos){
