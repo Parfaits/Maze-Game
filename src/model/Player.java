@@ -1,25 +1,33 @@
 package model;
 
+import javax.xml.transform.sax.SAXSource;
+import java.util.Arrays;
+
+/**
+ * This class gets and sets the position of the player.
+ * It also allows player movement upon key input.
+ * It also checks to see if the player position == cat position.
+ */
 public class Player {
     private int xPos;
     private int yPos;
     private boolean isDead;
 
+    // Constructor
     public Player(int xPos, int yPos, boolean isDead) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.isDead = isDead;
     }
 
-    // player has an origin position - reset player position
-    public void setPostion(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
 
     // player can change a state depending on a condition
     void setState(boolean isDead){
         this.isDead = isDead;
+    }
+
+    public boolean getState(){
+        return isDead;
     }
 
     private int getXPos() {
@@ -30,33 +38,52 @@ public class Player {
         return yPos;
     }
 
-    public boolean getState(){
-        return isDead;
+    // player has an origin position - reset player position
+    public void setPostionPlayer(int xPos, int yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
-    // saves position of player's x and y coordinates upon keyInput
+    // gets position of the player in [x, y] form
+    public int[] getPlayerPosition(){
+        int[] pos = {getXPos(), getYPos()};
+        return pos;
+    }
+
+    // saves position of player's x and y coordinates upon keyInput - use setPosition() to reset position.
     public void movement(String keyInput){
-        if (keyInput.equals("w")){
-            yPos += 1;
-        }
+        switch (keyInput) {
+            case "w":
+                yPos += 1;
+                break;
 
-        if (keyInput.equals("s")){
-            yPos += getYPos() - 1;
-        }
+            case "s":
+                yPos -= 1;
+                break;
 
-        if (keyInput.equals("a")){
-            xPos =+ -1;
-        }
+            case "a":
+                xPos -= 1;
+                break;
 
-        if (keyInput.equals("d")){
-            xPos += 1;
+            case "d":
+                xPos += 1;
+                break;
+
+            default:
+                System.out.println("Please try one of the following to update player position: w(up), s(down), a(left), d(right)");
+                break;
         }
     }
 
 
+    // If player position == cat position player isDead true.
+    public boolean checkCurrentPosition(boolean isDead, int[] playerPos, int[] catPos){
+        return getPlayerPosition() == catPos;
+    }
+
+    // Prints the position of the player.
     public void printPlayerPos(){
-        System.out.println("This is position x " + getXPos());
-        System.out.println("This is position y " + getYPos());
+        System.out.println("Player position is : " + Arrays.toString(getPlayerPosition()));
     }
 
 }
