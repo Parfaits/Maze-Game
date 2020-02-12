@@ -21,11 +21,23 @@ public class Maze {
         initMaze();
         mazeGenerate();
         mazeMaskGenerate();
-        materializeParticipants();
+        materializePlayer();
+        materializeCat();
+        materializeCheese();
     }
 
-    private void materializeParticipants() {
+    private void materializeCheese() {
+    }
 
+    private void materializeCat() {
+    }
+
+    private void materializePlayer() {
+        if (maze[0][0] == MazeElement.WALL) {
+            maze[0][0] = MazeElement.PASSAGE;
+        }
+
+        if (m)
     }
 
     private void mazeMaskGenerate() {
