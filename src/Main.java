@@ -5,5 +5,6 @@ public class Main {
         Maze maze = new Maze(10, 10);
         maze.init();
         maze.printMaze();
+        // hello JDawg
     }
 }
