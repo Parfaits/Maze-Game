@@ -66,7 +66,7 @@ public class MazeGame {
 
     // TODO: 2020-02-12 Player.class
     public boolean isMoveValid(String direction) {
-        return onMovementResult = player.checkValidMove(board, direction);
+        return player.isValidMove(board, direction);
     }
 
     public boolean isPlayerDead() {

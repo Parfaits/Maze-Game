@@ -77,7 +77,7 @@ public class Player {
     }
 
     // TODO: 2020-02-12 Use board to check if the move is valid.
-    void checkValidMove(MazeElement[][] board, String move) {
+    boolean isValidMove(MazeElement[][] board, String move) {
 
     }
 
