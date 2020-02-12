@@ -2,18 +2,28 @@ package ui;
 
 import model.Maze;
 import model.MazeElement;
+import model.MazeGame;
+
+import java.util.Scanner;
 
 public class TextUI {
-    private Maze maze;
+    private MazeGame game;
+    private Scanner in = new Scanner(System.in);
 
-    public TextUI(Maze maze) {
-        this.maze = maze;
+    public TextUI(MazeGame game) {
+        this.game = game;
+    }
+
+    public void show() {
+        while (game.isPlayerDead()) {
+            
+        }
     }
 
     public void printMaze() {
-        int width = maze.getWidth();;
-        int length = maze.getLength();
-        MazeElement[][] board = maze.getMaze();
+        int width = game.getWidth();;
+        int length = game.getLength();
+        MazeElement[][] board = game.getBoard();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < length; j++) {
                 if (board[i][j] == MazeElement.WALL) {
