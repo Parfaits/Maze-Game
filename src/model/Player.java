@@ -1,5 +1,11 @@
 package model;
 
+// player has an origin position
+// player can move up : W
+// player can move down : S
+// player can move left : A
+// player can move right : D
+
 public class Player {
     private int xPos;
     private int yPos;
@@ -11,16 +17,39 @@ public class Player {
         this.isDead = isDead;
     }
 
+    private int getXPos() {
+        return xPos;
+    }
+
+    private int getYPos() {
+        return yPos;
+    }
+
     void setPostion(int x, int y) {
         this.xPos = xPos;
         this.yPos = yPos;
     }
 
-    public int getX() {
-        return xPos;
+
+    public int moveUP(){
+        return getYPos() + 1;
     }
 
-    public int getY() {
-        return yPos;
+    public int moveDown(){
+        return getYPos() - 1;
     }
+
+    public int moveLeft(){
+        return getXPos() - 1;
+    }
+
+    public int moveRight(){
+        return getXPos() + 1;
+    }
+
+    public void printPlayer(){
+        System.out.println("This is position x " + getXPos());
+        System.out.println("This is position y " + getYPos());
+    }
+
 }

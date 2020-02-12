@@ -1,4 +1,3 @@
-import model.Maze;
 import model.MazeGame;
 import ui.TextUI;
 
@@ -9,5 +8,7 @@ public class Main {
         MazeGame game = new MazeGame(maze);
         TextUI textUI = new TextUI(maze);
         textUI.printMaze();
+        Player player = new Player(0, 0, true);
+        player.printPlayer();
     }
 }
