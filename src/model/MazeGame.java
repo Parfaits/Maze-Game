@@ -12,6 +12,7 @@ public class MazeGame {
     private Cat cat2;
     private Cat cat3;
     private int[] cheesePosition;
+    private byte wins;
     private Random random = new Random();
 
     public void init(int length, int width) {
@@ -68,6 +69,8 @@ public class MazeGame {
     public boolean isMoveValid(String direction) {
         return player.isValidMove(board, direction);
     }
+
+    
 
     public boolean isPlayerDead() {
         return player.isDead();

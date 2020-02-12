@@ -47,7 +47,7 @@ public class Cat {
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // TODO: 2020-02-12 Use board to check validity of it's next move. Also update the board on move.
+    // TODO: 2020-02-12 Use board to check validity of it's next move (only need to check for walls and maybe other cats). Also update the board on move.
     void move(MazeElement[][] board){
         int randNum = generateRandomNum();
         switch (randNum) {
