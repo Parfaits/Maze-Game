@@ -86,4 +86,7 @@ public class Player {
         System.out.println("Player position is : " + Arrays.toString(getPlayerPosition()));
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
 }

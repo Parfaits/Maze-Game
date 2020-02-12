@@ -11,6 +11,7 @@ public class MazeGame {
     private Cat cat1;
     private Cat cat2;
     private Cat cat3;
+    private int[] cheesePosition;
     private Random random = new Random();
 
     public void init(int length, int width) {
@@ -50,7 +51,15 @@ public class MazeGame {
             randY = random.nextInt(width-2);
         }
 
+        cheesePosition = new int[]{randX, randY};
         board[randX][randY] = MazeElement.CHEESE;
+    }
+
+    public void movementCommand(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                break;
+        }
     }
 
     public boolean isPlayerDead() {
