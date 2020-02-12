@@ -3,15 +3,15 @@ package model;
 public class Player {
     private int xPos;
     private int yPos;
-    private boolean state;
+    private boolean isDead;
 
-    public Player(int xPos, int yPos, boolean state) {
+    Player(int xPos, int yPos, boolean isDead) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.state = state;
+        this.isDead = isDead;
     }
 
-    public void setPostion(int x, int y) {
+    void setPostion(int x, int y) {
         this.xPos = xPos;
         this.yPos = yPos;
     }
