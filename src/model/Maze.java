@@ -9,35 +9,47 @@ public class Maze {
     private int width;
     private MazeElement[][] maze;
     private MazeElement[][] mazeMask;
+    private Player player;
+    private Cat cat;
 
     public Maze(int length, int width) {
         this.length = length;
         this.width = width;
         this.maze = new MazeElement[width][length];
         this.mazeMask = new MazeElement[width][length];
-    }
-
-    public void init() {
         initMaze();
         mazeGenerate();
+        checkCorners();
         mazeMaskGenerate();
         materializePlayer();
         materializeCat();
         materializeCheese();
     }
 
+    private void checkCorners() {
+        while (maze[1][1] == MazeElement.WALL
+                || maze[1][length-2] == MazeElement.WALL
+                || maze[width-2][1] == MazeElement.WALL
+                || maze[width-2][length-2] == MazeElement.WALL) {
+            initMaze();
+            mazeGenerate();
+        }
+    }
+
     private void materializeCheese() {
+
     }
 
     private void materializeCat() {
     }
 
     private void materializePlayer() {
-        if (maze[0][0] == MazeElement.WALL) {
-            maze[0][0] = MazeElement.PASSAGE;
-        }
+        assert !(maze[1][1] == MazeElement.WALL
+                || maze[1][length-2] == MazeElement.WALL
+                || maze[width-2][1] == MazeElement.WALL
+                || maze[width-2][length-2] == MazeElement.WALL);
 
-        if (m)
+        
     }
 
     private void mazeMaskGenerate() {
