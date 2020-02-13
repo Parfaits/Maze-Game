@@ -69,15 +69,14 @@ public class MazeGame {
     public void handleMovementCommands(String command) {
         assert isMoveValidPlayer(command);
         player.move(board, command);
-//        tom.move(board, boardMask);
-//        joe.move(board, boardMask);
-//        chad.move(board, boardMask);
+        tom.move(board);
+        joe.move(board);
+        chad.move(board);
 
         updatePlayerInBoardMask();
         updateCatsInBoardMask();
     }
 
-    @Deprecated
     private void updateCatsInBoardMask() {
         assert isMoveValidTom();
         tom.move(board);
