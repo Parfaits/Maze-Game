@@ -31,7 +31,16 @@ public class TextUI {
                 } else if (command.equalsIgnoreCase("m")) {
                     printMaze(game.getBoard());
                 }
-                printMaze(game.getBoardMask());
+                
+                MazeElement[][] boardMask = game.getBoardMask();
+                int[] tom = game.getTomPosition();
+                int[] joe = game.getJoePosition();
+                int[] chad = game.getChadPosition();
+                boardMask[tom[1]][tom[0]] = MazeElement.CAT;
+                boardMask[joe[1]][joe[0]] = MazeElement.CAT;
+                boardMask[chad[1]][chad[0]] = MazeElement.CAT;
+
+                printMaze(boardMask);
             }
 
         }
