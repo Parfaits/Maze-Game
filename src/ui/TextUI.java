@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class TextUI {
 
     // TODO: 2020-02-13 Make UI more gud
-    // FIXME: 2020-02-13 UI is TRASH
+    // FIXME: 2020-02-13 UI is TRASH // Fixed UI
 
     private MazeGame game;
     private int width;
@@ -22,6 +22,9 @@ public class TextUI {
     }
 
     public void show() {
+        displayTitle();
+        displayInstructions();
+
         while (!game.isGameEnd()) {
             while (!game.isPlayerDead()) {
                 game.updatePlayerInBoardMask();
@@ -30,6 +33,7 @@ public class TextUI {
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
+                System.out.println();
 
                 if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
                     game.handleMovementCommands(command);
@@ -53,7 +57,7 @@ public class TextUI {
 
     private String handleInvalidUserInput(String input) {
         String command = input;
-        while (!(game.isMoveValid(command)
+        while (!(game.isMoveValidPlayer(command)
                 || command.equalsIgnoreCase("w")
                 || command.equalsIgnoreCase("a")
                 || command.equalsIgnoreCase("s")
@@ -61,7 +65,7 @@ public class TextUI {
                 || command.equalsIgnoreCase("c")
                 || command.equalsIgnoreCase("m"))) {
 
-            if (!game.isMoveValid(command)) {
+            if (!game.isMoveValidPlayer(command)) {
                 System.out.println("BRUH STOP");
             } else {
                 System.out.println("WTF");
@@ -73,6 +77,7 @@ public class TextUI {
     }
 
     private void printMaze(MazeElement[][] board, int[] player, int[] tom, int[] joe, int[] chad) {
+        System.out.println("Maze:");
         int width = game.getWidth();;
         int length = game.getLength();
         for (int i = 0; i < width; i++) {
@@ -130,4 +135,31 @@ public class TextUI {
             System.out.println();
         }
     }
+
+    void displayTitle(){
+        System.out.println("----------------------------------------");
+        System.out.println("Welcome to Cat and Mouse Maze Adventure!");
+        System.out.println("by Johnny D and Fazal W");
+        System.out.println("----------------------------------------");
+        System.out.println();
+    }
+
+    void displayInstructions(){
+        System.out.println("DIRECTIONS:");
+        System.out.println("        Find 5 cheese before a cat eats you!");
+
+        System.out.println("LEGEND:");
+        System.out.println("        #: Wall");
+        System.out.println("        @: You (a mouse)");
+        System.out.println("        !: Cat");
+        System.out.println("        $: Cheese");
+        System.out.println("        .: Unexplored space");
+
+        System.out.println("MOVES:");
+        System.out.println("        Use W (up), A (left), S (down) and D (right) to move.");
+        System.out.println("        (You must press enter after each move).");
+        System.out.println();
+    }
+
+
 }
