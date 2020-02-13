@@ -18,11 +18,11 @@ public class Cat {
         this.yPos = yPos;
     }
 
-    private int getXPos() {
+    int getXPos() {
         return xPos;
     }
 
-    private int getYPos() {
+    int getYPos() {
         return yPos;
     }
 
