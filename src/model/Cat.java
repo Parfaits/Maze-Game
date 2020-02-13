@@ -13,7 +13,7 @@ public class Cat {
     private int xPos;
     private int yPos;
 
-    public Cat(int xPos, int yPos) {
+    Cat(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
     }
@@ -39,7 +39,7 @@ public class Cat {
     }
 
     // generates random numbers from 0-3 to satisfy one of the four conditions in cat movement
-    public int generateRandomNum(){
+    private int generateRandomNum(){
         Random rand = new Random();
         int upperbound = 3;
         int random = rand.nextInt(upperbound);
@@ -47,7 +47,7 @@ public class Cat {
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // DONE: TODO: 2020-02-12 Use board to check validity of it's next move (only need to check for walls and maybe other cats). Also update the board on move.
+    // FIXME: 2020-02-13 Bug where cat's previous position still has itself.
     void move(MazeElement[][] board){
         int randNum = generateRandomNum();
         switch (randNum) {
@@ -86,7 +86,7 @@ public class Cat {
     }
 
     // If cat position == player position, player isDead true.
-    public boolean checkCurrentPosition(boolean isDead, int[] playerPos){
+    public boolean isPlayerEaten(int[] playerPos){
         return getCatPosition() == playerPos;
     }
 

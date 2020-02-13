@@ -14,7 +14,7 @@ public class Player {
     private boolean isDead;
 
     // Constructor
-    public Player(int xPos, int yPos, boolean isDead) {
+    Player(int xPos, int yPos, boolean isDead) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.isDead = isDead;
@@ -51,34 +51,37 @@ public class Player {
     }
 
     // saves position of player's x and y coordinates upon keyInput - use setPosition() to reset position.
-    // TODO: 2020-02-12 Also update the board.
     void move(MazeElement[][] board, String keyInput){
         switch (keyInput) {
             case "w":
-                if (board[yPos+1][xPos] != MazeElement.WALL){
-                    yPos++;
-                    board[yPos+1][xPos] = MazeElement.PLAYER;
+                if (board[yPos-1][xPos] != MazeElement.WALL){
+                    board[yPos-1][xPos] = MazeElement.PLAYER;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    yPos--;
                 }
                 break;
 
             case "s":
-                if (board[yPos-1][xPos] != MazeElement.WALL){
-                    yPos--;
-                    board[yPos-1][xPos] = MazeElement.PLAYER;
+                if (board[yPos+1][xPos] != MazeElement.WALL){
+                    board[yPos+1][xPos] = MazeElement.PLAYER;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    yPos++;
                 }
                 break;
 
             case "a":
                 if (board[yPos][xPos-1] != MazeElement.WALL){
-                    xPos--;
                     board[yPos][xPos-1] = MazeElement.PLAYER;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    xPos--;
                 }
                 break;
 
             case "d":
                 if (board[yPos][xPos+1] != MazeElement.WALL){
-                    xPos++;
                     board[yPos][xPos+1] = MazeElement.PLAYER;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    xPos++;
                 }
                 break;
 
@@ -88,17 +91,17 @@ public class Player {
         }
     }
 
-    // TODO: 2020-02-12 Use board to check if the move is valid (only need to check for walls).
     boolean isValidMove(MazeElement[][] board, String move) {
         switch (move) {
             case "w":
-                if (board[yPos + 1][xPos] != MazeElement.WALL) {
+                if (board[yPos - 1][xPos] != MazeElement.WALL) {
+                    System.out.println("bro why");
                     return true;
                 }
                 break;
 
             case "s":
-                if (board[yPos - 1][xPos] != MazeElement.WALL) {
+                if (board[yPos + 1][xPos] != MazeElement.WALL) {
                     return true;
                 }
                 break;
@@ -133,7 +136,7 @@ public class Player {
         System.out.println("Player position is : " + Arrays.toString(getPlayerPosition()));
     }
 
-    public boolean isDead() {
+    boolean isDead() {
         return isDead;
     }
 }

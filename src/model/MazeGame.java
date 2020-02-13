@@ -4,10 +4,13 @@ import java.util.Random;
 
 public class MazeGame {
 
+    // TODO: 2020-02-13 implement player die logic
+    // TODO: 2020-02-13 Check all [][] if the values are placed in the right brackets [y][x] [width][length] 
+
     private MazeElement[][] board;
     private MazeElement[][] boardMask;
-    private int length;
     private int width;
+    private int length;
     private Player player;
     private Cat tom;
     private Cat joe;
@@ -21,29 +24,16 @@ public class MazeGame {
 
     private Random random = new Random();
 
-    public void init(int length, int width) {
-        this.length = length;
+    public void init(int width, int length) {
         this.width = width;
-        Maze maze = new Maze(length, width);
+        this.length = length;
+        Maze maze = new Maze(width, length);
         board = maze.getMaze();
         boardMask = maze.getMazeMask();
         wins = 0;
         maxWins = 5;
 
         materializeParticipants();
-        initializeBoardMask();
-    }
-
-    private void initializeBoardMask() {
-        boardMask[1][1] = MazeElement.PLAYER;
-        boardMask[1][length-2] = MazeElement.CAT;
-        boardMask[width-2][1] = MazeElement.CAT;
-        boardMask[width-2][length-2] = MazeElement.CAT;
-        boardMask[cheesePosition[0]][cheesePosition[1]] = MazeElement.CHEESE;
-
-        tomCurrentCell = MazeElement.HIDDEN;
-        joeCurrentCell = MazeElement.HIDDEN;
-        chadCurrentCell = MazeElement.HIDDEN;
     }
 
     private void materializeParticipants() {
@@ -72,6 +62,7 @@ public class MazeGame {
 
         cheesePosition = new int[]{randY, randX};
         board[randY][randX] = MazeElement.CHEESE;
+        boardMask[randY][randX] = MazeElement.CHEESE;
     }
 
     // TODO: 2020-02-12 Player.class && Cat.class
@@ -120,7 +111,7 @@ public class MazeGame {
         int playerY = player.getYPos();
         int playerX = player.getXPos();
 
-        boardMask[playerY][playerX] = board[playerY][playerX];
+//        boardMask[playerY][playerX] = board[playerY][playerX];
 
         if (playerX+1 != length-1) {
             boardMask[playerY][playerX+1] = board[playerY][playerX+1];
@@ -148,7 +139,22 @@ public class MazeGame {
         }
     }
 
-    // TODO: 2020-02-12 Player.class
+    public boolean isPlayerWin() {
+        if (player.getYPos() == cheesePosition[0] && player.getXPos() == cheesePosition[1]) {
+            wins++;
+            return true;
+        }
+        return false;
+    }
+
+    public byte getWins() {
+        return wins;
+    }
+
+    public byte getMaxWins() {
+        return maxWins;
+    }
+
     public boolean isMoveValid(String direction) {
         return player.isValidMove(board, direction);
     }
@@ -175,6 +181,10 @@ public class MazeGame {
 
     public boolean isPlayerDead() {
         return player.isDead();
+    }
+
+    public int[] getPlayerPosition() {
+        return player.getPlayerPosition();
     }
 
     public int[] getTomPosition() {
