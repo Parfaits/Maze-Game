@@ -76,7 +76,7 @@ public class MazeGame {
     // TODO: 2020-02-12 Player.class && Cat.class
     public void handleMovementCommands(String command) {
         assert isMoveValid(command);
-//        player.move(board, command);
+        player.move(board, command);
 //        tom.move(board, boardMask);
 //        joe.move(board, boardMask);
 //        chad.move(board, boardMask);
@@ -174,6 +174,22 @@ public class MazeGame {
 
     public boolean isPlayerDead() {
         return player.isDead();
+    }
+
+    public int[] getTomPosition() {
+        return tom.getCatPosition();
+    }
+
+    public int[] getJoePosition() {
+        return joe.getCatPosition();
+    }
+
+    public int[] getChadPosition() {
+        return chad.getCatPosition();
+    }
+
+    public int[] getCheesePosition() {
+        return cheesePosition;
     }
 
     public MazeElement[][] getBoard() {
