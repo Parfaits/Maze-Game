@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class TextUI {
 
     // TODO: 2020-02-13 Make UI more gud
+    // FIXME: 2020-02-13 UI is TRASH
 
     private MazeGame game;
     private int width;
@@ -23,26 +24,24 @@ public class TextUI {
     public void show() {
         while (!game.isGameEnd()) {
             while (!game.isPlayerDead()) {
+                game.updatePlayerInBoardMask();
                 printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
                 System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
-                while (!game.isMoveValidPlayer(command)) {
-                    System.out.println("BRUH STOP");
-                    System.out.print("Enter your move [WASD?]: ");
-                    command = in.nextLine();
-                    command = handleInvalidUserInput(command);
-                }
+
                 if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
                     game.handleMovementCommands(command);
+//                    printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
                 } else if (command.equalsIgnoreCase("c")) {
                     game.setMaxWins((byte) 1);
                 } else if (command.equalsIgnoreCase("m")) {
                     printMaze(game.getBoard(), new int[]{}, new int[]{}, new int[]{}, new int[]{});
+
                 }
 
-                printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
+
                 if (game.isPlayerWin()) {
                     System.out.println("SWAAAAG");
                     break;
@@ -54,14 +53,19 @@ public class TextUI {
 
     private String handleInvalidUserInput(String input) {
         String command = input;
-        while (!(command.equalsIgnoreCase("w")
+        while (!(game.isMoveValid(command)
+                || command.equalsIgnoreCase("w")
                 || command.equalsIgnoreCase("a")
                 || command.equalsIgnoreCase("s")
                 || command.equalsIgnoreCase("d")
                 || command.equalsIgnoreCase("c")
                 || command.equalsIgnoreCase("m"))) {
 
-            System.out.println("WTF");
+            if (!game.isMoveValid(command)) {
+                System.out.println("BRUH STOP");
+            } else {
+                System.out.println("WTF");
+            }
             System.out.print("Enter your move [WASD?]: ");
             command = in.nextLine();
         }
