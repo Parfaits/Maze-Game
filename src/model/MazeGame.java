@@ -18,6 +18,7 @@ public class MazeGame {
     private MazeElement chadCurrentCell;
     private byte wins;
     private byte maxWins;
+
     private Random random = new Random();
 
     public void init(int length, int width) {
@@ -74,22 +75,12 @@ public class MazeGame {
     }
 
     // TODO: 2020-02-12 Player.class && Cat.class
-    public void handleCommands(String command) {
+    public void handleMovementCommands(String command) {
         assert isMoveValid(command);
-        if (command.equalsIgnoreCase("w")
-                || command.equalsIgnoreCase("a")
-                || command.equalsIgnoreCase("s")
-                || command.equalsIgnoreCase("d")) {
-
-            player.move(board, command);
-            tom.move(board, boardMask);
-            joe.move(board, boardMask);
-            chad.move(board, boardMask);
-        } else if (command.equalsIgnoreCase("c")) {
-            maxWins = 1;
-        } else {
-            System.err.println("swag");
-        }
+        player.move(board, command);
+        tom.move(board, boardMask);
+        joe.move(board, boardMask);
+        chad.move(board, boardMask);
 
         updatePlayerInBoardMask();
 //        updateCatsInBoardMask();
@@ -174,12 +165,16 @@ public class MazeGame {
         return chadCurrentCell;
     }
 
-    public boolean isPlayerDead() {
-        return player.isDead();
+    public void setMaxWins(byte maxWins) {
+        this.maxWins = maxWins;
     }
 
-    public void setWins(byte wins) {
-        this.wins = wins;
+    public boolean isGameEnd() {
+        return wins == maxWins;
+    }
+
+    public boolean isPlayerDead() {
+        return player.isDead();
     }
 
     public MazeElement[][] getBoard() {
