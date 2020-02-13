@@ -24,14 +24,17 @@ public class MazeGame {
 
     private Random random = new Random();
 
+    public MazeGame() {
+        this.wins = 0;
+        this.maxWins = 5;
+    }
+
     public void init(int width, int length) {
         this.width = width;
         this.length = length;
         Maze maze = new Maze(width, length);
         board = maze.getMaze();
         boardMask = maze.getMazeMask();
-        wins = 0;
-        maxWins = 5;
 
         materializeParticipants();
     }
@@ -107,7 +110,7 @@ public class MazeGame {
 
     }
 
-    private void updatePlayerInBoardMask() {
+    public void updatePlayerInBoardMask() {
         int playerY = player.getYPos();
         int playerX = player.getXPos();
 
