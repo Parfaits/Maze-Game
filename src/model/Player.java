@@ -30,11 +30,11 @@ public class Player {
         return isDead;
     }
 
-    private int getXPos() {
+    int getXPos() {
         return xPos;
     }
 
-    private int getYPos() {
+    int getYPos() {
         return yPos;
     }
 
