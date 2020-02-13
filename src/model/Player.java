@@ -55,19 +55,31 @@ public class Player {
     void move(MazeElement[][] board, String keyInput){
         switch (keyInput) {
             case "w":
-                yPos += 1;
+                if (board[yPos+1][xPos] != MazeElement.WALL){
+                    yPos++;
+                    board[yPos+1][xPos] = MazeElement.PLAYER;
+                }
                 break;
 
             case "s":
-                yPos -= 1;
+                if (board[yPos-1][xPos] != MazeElement.WALL){
+                    yPos--;
+                    board[yPos-1][xPos] = MazeElement.PLAYER;
+                }
                 break;
 
             case "a":
-                xPos -= 1;
+                if (board[yPos][xPos-1] != MazeElement.WALL){
+                    xPos--;
+                    board[yPos][xPos-1] = MazeElement.PLAYER;
+                }
                 break;
 
             case "d":
-                xPos += 1;
+                if (board[yPos][xPos+1] != MazeElement.WALL){
+                    xPos++;
+                    board[yPos][xPos+1] = MazeElement.PLAYER;
+                }
                 break;
 
             default:
@@ -78,7 +90,37 @@ public class Player {
 
     // TODO: 2020-02-12 Use board to check if the move is valid (only need to check for walls).
     boolean isValidMove(MazeElement[][] board, String move) {
-        return true;
+        switch (move) {
+            case "w":
+                if (board[yPos + 1][xPos] != MazeElement.WALL) {
+                    return true;
+                }
+                break;
+
+            case "s":
+                if (board[yPos - 1][xPos] != MazeElement.WALL) {
+                    return true;
+                }
+                break;
+
+            case "a":
+                if (board[yPos][xPos - 1] != MazeElement.WALL) {
+                    return true;
+
+                }
+                break;
+
+            case "d":
+                if (board[yPos][xPos + 1] != MazeElement.WALL) {
+                    return true;
+                }
+                break;
+
+            default:
+                return false;
+        }
+
+        return false;
     }
 
     // If player position == cat position player isDead true.

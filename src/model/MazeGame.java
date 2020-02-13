@@ -76,10 +76,10 @@ public class MazeGame {
     // TODO: 2020-02-12 Player.class && Cat.class
     public void handleMovementCommands(String command) {
         assert isMoveValid(command);
-        player.move(board, command);
-        tom.move(board, boardMask);
-        joe.move(board, boardMask);
-        chad.move(board, boardMask);
+//        player.move(board, command);
+//        tom.move(board, boardMask);
+//        joe.move(board, boardMask);
+//        chad.move(board, boardMask);
 
         updatePlayerInBoardMask();
 //        updateCatsInBoardMask();
