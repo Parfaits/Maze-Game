@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class MazeGame {
 
-    private static final byte MAX_WINS = 5;
-
     private MazeElement[][] board;
     private MazeElement[][] boardMask;
     private int length;
@@ -19,15 +17,17 @@ public class MazeGame {
     private MazeElement joeCurrentCell;
     private MazeElement chadCurrentCell;
     private byte wins;
-
+    private byte maxWins;
     private Random random = new Random();
 
     public void init(int length, int width) {
+        this.length = length;
+        this.width = width;
         Maze maze = new Maze(length, width);
-        this.board = maze.getMaze();
-        this.boardMask = maze.getMazeMask();
-        this.length = maze.getLength();
-        this.width = maze.getWidth();
+        board = maze.getMaze();
+        boardMask = maze.getMazeMask();
+        wins = 0;
+        maxWins = 5;
 
         materializeParticipants();
         initializeBoardMask();
@@ -85,12 +85,10 @@ public class MazeGame {
             tom.move(board, boardMask);
             joe.move(board, boardMask);
             chad.move(board, boardMask);
-        } else if (command.equalsIgnoreCase("m")) {
-
         } else if (command.equalsIgnoreCase("c")) {
-
+            maxWins = 1;
         } else {
-
+            System.err.println("swag");
         }
 
         updatePlayerInBoardMask();
@@ -178,6 +176,10 @@ public class MazeGame {
 
     public boolean isPlayerDead() {
         return player.isDead();
+    }
+
+    public void setWins(byte wins) {
+        this.wins = wins;
     }
 
     public MazeElement[][] getBoard() {
