@@ -81,10 +81,10 @@ public class MazeGame {
                 || command.equalsIgnoreCase("s")
                 || command.equalsIgnoreCase("d")) {
 
-            player.move(board, command);
-            tom.move(board, boardMask);
-            joe.move(board, boardMask);
-            chad.move(board, boardMask);
+//            player.move(board, command);
+//            tom.move(board, boardMask);
+//            joe.move(board, boardMask);
+//            chad.move(board, boardMask);
         } else if (command.equalsIgnoreCase("m")) {
 
         } else if (command.equalsIgnoreCase("c")) {
@@ -97,33 +97,11 @@ public class MazeGame {
 //        updateCatsInBoardMask();
     }
 
-    @Deprecated
     private void updateCatsInBoardMask() {
-        int tomY = tom.getYPos();
-        int tomX = tom.getXPos();
-        int joeY = joe.getYPos();
-        int joeX = joe.getXPos();
-        int chadY = chad.getYPos();
-        int chadX = chad.getXPos();
 
-        if (tomX == cheesePosition[0] && tomY == cheesePosition[1]) {
-            boardMask[tomY][tomX] = MazeElement.CAT;
-            tomCurrentCell = MazeElement.CHEESE;
-        } else if (board[tomY][tomX] == MazeElement.PASSAGE) {
-            boardMask[tomY][tomX] = MazeElement.CAT;
-            tomCurrentCell = MazeElement.PASSAGE;
-        } else {
-            boardMask[tomY][tomX] = MazeElement.CAT;
-            tomCurrentCell = MazeElement.HIDDEN;
-        }
-        if (joeX == cheesePosition[0] && joeY == cheesePosition[1]) {
-            boardMask[joeY][joeX] = MazeElement.CAT;
-            joeCurrentCell = MazeElement.CHEESE;
-        }
-        if (chadX == cheesePosition[0] && chadY == cheesePosition[1]) {
-            boardMask[chadY][chadX] = MazeElement.CAT;
-            chadCurrentCell = MazeElement.CHEESE;
-        }
+        tom.move(boardMask);
+        joe.move(boardMask);
+        chad.move(boardMask);
 
     }
 

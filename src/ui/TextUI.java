@@ -16,7 +16,7 @@ public class TextUI {
 
     public void show() {
         while (game.isPlayerDead()) {
-            
+
         }
     }
 

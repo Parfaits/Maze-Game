@@ -78,7 +78,7 @@ public class Player {
 
     // TODO: 2020-02-12 Use board to check if the move is valid (only need to check for walls).
     boolean isValidMove(MazeElement[][] board, String move) {
-
+        return true;
     }
 
     // If player position == cat position player isDead true.
