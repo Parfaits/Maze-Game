@@ -86,7 +86,6 @@ public class Player {
                 break;
 
             default:
-                System.out.println("Please try one of the following to update player position: w(up), s(down), a(left), d(right)");
                 break;
         }
     }
@@ -120,6 +119,7 @@ public class Player {
                 break;
 
             default:
+//                System.out.println("Invalid move: you cannot move through walls!");
                 return false;
         }
 

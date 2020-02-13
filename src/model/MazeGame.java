@@ -80,6 +80,7 @@ public class MazeGame {
         updateCatsInBoardMask();
     }
 
+
     private void updateCatsInBoardMask() {
         assert isMoveValidTom();
         tom.move(board);

@@ -53,6 +53,7 @@ public class TextUI {
             }
             game.init(width, length);
         }
+        System.out.println("Congratulations you won!");
     }
 
     private String handleInvalidUserInput(String input) {
@@ -67,6 +68,7 @@ public class TextUI {
 
             if (!game.isMoveValidPlayer(command)) {
                 System.out.println("BRUH STOP");
+                System.out.println("Invalid move. Please enter just A (left), S (down), D (right), or W (up).");
             } else {
                 System.out.println("WTF");
             }
