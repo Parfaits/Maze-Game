@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class MazeGame {
 
-    private static final byte MAX_WINS = 5;
-
     private MazeElement[][] board;
     private MazeElement[][] boardMask;
     private int length;
@@ -19,6 +17,7 @@ public class MazeGame {
     private MazeElement joeCurrentCell;
     private MazeElement chadCurrentCell;
     private byte wins;
+    private byte maxWins;
 
     private Random random = new Random();
 
@@ -28,6 +27,7 @@ public class MazeGame {
         this.boardMask = maze.getMazeMask();
         this.length = maze.getLength();
         this.width = maze.getWidth();
+        maxWins = 5;
 
         materializeParticipants();
         initializeBoardMask();
@@ -74,34 +74,44 @@ public class MazeGame {
     }
 
     // TODO: 2020-02-12 Player.class && Cat.class
-    public void handleCommands(String command) {
+    public void handleMovementCommands(String command) {
         assert isMoveValid(command);
-        if (command.equalsIgnoreCase("w")
-                || command.equalsIgnoreCase("a")
-                || command.equalsIgnoreCase("s")
-                || command.equalsIgnoreCase("d")) {
-
-//            player.move(board, command);
-//            tom.move(board, boardMask);
-//            joe.move(board, boardMask);
-//            chad.move(board, boardMask);
-        } else if (command.equalsIgnoreCase("m")) {
-
-        } else if (command.equalsIgnoreCase("c")) {
-
-        } else {
-
-        }
+        player.move(board, command);
+        tom.move(board, boardMask);
+        joe.move(board, boardMask);
+        chad.move(board, boardMask);
 
         updatePlayerInBoardMask();
 //        updateCatsInBoardMask();
     }
 
+    @Deprecated
     private void updateCatsInBoardMask() {
+        int tomY = tom.getYPos();
+        int tomX = tom.getXPos();
+        int joeY = joe.getYPos();
+        int joeX = joe.getXPos();
+        int chadY = chad.getYPos();
+        int chadX = chad.getXPos();
 
-        tom.move(boardMask);
-        joe.move(boardMask);
-        chad.move(boardMask);
+        if (tomX == cheesePosition[0] && tomY == cheesePosition[1]) {
+            boardMask[tomY][tomX] = MazeElement.CAT;
+            tomCurrentCell = MazeElement.CHEESE;
+        } else if (board[tomY][tomX] == MazeElement.PASSAGE) {
+            boardMask[tomY][tomX] = MazeElement.CAT;
+            tomCurrentCell = MazeElement.PASSAGE;
+        } else {
+            boardMask[tomY][tomX] = MazeElement.CAT;
+            tomCurrentCell = MazeElement.HIDDEN;
+        }
+        if (joeX == cheesePosition[0] && joeY == cheesePosition[1]) {
+            boardMask[joeY][joeX] = MazeElement.CAT;
+            joeCurrentCell = MazeElement.CHEESE;
+        }
+        if (chadX == cheesePosition[0] && chadY == cheesePosition[1]) {
+            boardMask[chadY][chadX] = MazeElement.CAT;
+            chadCurrentCell = MazeElement.CHEESE;
+        }
 
     }
 
@@ -152,6 +162,14 @@ public class MazeGame {
 
     MazeElement getChadCurrentCell() {
         return chadCurrentCell;
+    }
+
+    public void setMaxWins(byte maxWins) {
+        this.maxWins = maxWins;
+    }
+
+    public boolean isGameEnd() {
+        return wins == maxWins;
     }
 
     public boolean isPlayerDead() {
