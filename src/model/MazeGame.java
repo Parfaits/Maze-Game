@@ -128,6 +128,17 @@ public class MazeGame {
         return false;
     }
 
+    public boolean isPlayerDead(){
+        if (player.getYPos() == tom.getYPos() && player.getXPos() == tom.getXPos()){
+            return true;
+        }else if (player.getYPos() == joe.getYPos() && player.getXPos() == joe.getXPos()){
+            return true;
+        }else if (player.getYPos() == chad.getYPos() && player.getXPos() == chad.getXPos()){
+            return true;
+        }
+        return false;
+    }
+
     public byte getWins() {
         return wins;
     }
@@ -172,9 +183,9 @@ public class MazeGame {
         return wins == maxWins;
     }
 
-    public boolean isPlayerDead() {
-        return player.isDead();
-    }
+//    public boolean isPlayerDead() {
+//        return player.isDead();
+//    }
 
     public int[] getPlayerPosition() {
         return player.getPlayerPosition();
