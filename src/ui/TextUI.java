@@ -16,9 +16,15 @@ public class TextUI {
     public void show() {
         while (!game.isGameEnd()) {
             while (!game.isPlayerDead()) {
+                System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
-                if (game.isMoveValid(command) && !(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
+
+                if (!game.isMoveValid(command)) {
+                    System.out.println("BRUH");
+                    command = handleInvalidUserInput(command);
+                }
+                if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
                     game.handleMovementCommands(command);
                 } else if (command.equalsIgnoreCase("c")) {
                     game.setMaxWins((byte) 1);
@@ -40,7 +46,7 @@ public class TextUI {
                 || command.equalsIgnoreCase("c")
                 || command.equalsIgnoreCase("m"))) {
 
-            System.err.println("BRUH");
+            System.err.print("Enter your move [WASD?]: ");
             command = in.nextLine();
         }
         return command;
