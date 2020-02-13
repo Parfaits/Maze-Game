@@ -7,5 +7,7 @@ public class Main {
         game.init(10, 10);
         TextUI textUI = new TextUI(game);
         textUI.show();
+
+
     }
 }

@@ -47,24 +47,36 @@ public class Cat {
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // TODO: 2020-02-12 Use board to check validity of it's next move (only need to check for walls and maybe other cats). Also update the board on move.
+    // DONE: TODO: 2020-02-12 Use board to check validity of it's next move (only need to check for walls and maybe other cats). Also update the board on move.
     void move(MazeElement[][] board){
         int randNum = generateRandomNum();
         switch (randNum) {
             case 0:
-                yPos += 1;
+                if (board[yPos+1][xPos] != MazeElement.WALL){
+                    yPos++;
+                    board[yPos+1][xPos] = MazeElement.CAT;
+                }
                 break;
 
             case 1:
-                yPos -= 1;
+                if (board[yPos-1][xPos] != MazeElement.WALL){
+                    yPos--;
+                    board[yPos-1][xPos] = MazeElement.CAT;
+                }
                 break;
 
             case 2:
-                xPos -= 1;
+                if (board[yPos][xPos-1] != MazeElement.WALL){
+                    xPos--;
+                    board[yPos][xPos-1] = MazeElement.CAT;
+                }
                 break;
 
             case 3:
-                xPos += 1;
+                if (board[yPos][xPos+1] != MazeElement.WALL){
+                    xPos++;
+                    board[yPos][xPos+1] = MazeElement.CAT;
+                }
                 break;
 
             default:
@@ -80,6 +92,6 @@ public class Cat {
 
     // Prints the position of the cat.
     public void printCatPos(){
-        System.out.println("Cat position is : " + Arrays.toString(getCatPosition()));
+        System.out.println("Cat position is : " + xPos + " " + yPos);
     }
 }
