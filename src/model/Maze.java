@@ -11,9 +11,9 @@ public class Maze {
     private MazeElement[][] mazeMask;
     private Random random = new Random();
 
-    public Maze(int length, int width) {
-        this.length = length;
+    public Maze(int width, int length) {
         this.width = width;
+        this.length = length;
         this.maze = new MazeElement[width][length];
         this.mazeMask = new MazeElement[width][length];
         initMaze();
@@ -98,14 +98,6 @@ public class Maze {
             }
             wallPositions.remove(wallAndOppositeCell);
         }
-    }
-
-    int getLength() {
-        return length;
-    }
-
-    int getWidth() {
-        return width;
     }
 
     MazeElement[][] getMaze() {
