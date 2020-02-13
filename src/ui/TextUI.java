@@ -28,7 +28,7 @@ public class TextUI {
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
-                while (!game.isMoveValid(command)) {
+                while (!game.isMoveValidPlayer(command)) {
                     System.out.println("BRUH STOP");
                     System.out.print("Enter your move [WASD?]: ");
                     command = in.nextLine();

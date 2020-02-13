@@ -47,35 +47,39 @@ public class Cat {
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // FIXME: 2020-02-13 Bug where cat's previous position still has itself.
+    // FIXME: 2020-02-13 Bug where cat's previous position still has itself. // Fixed
     void move(MazeElement[][] board){
         int randNum = generateRandomNum();
         switch (randNum) {
             case 0:
-                if (board[yPos+1][xPos] != MazeElement.WALL){
-                    yPos++;
-                    board[yPos+1][xPos] = MazeElement.CAT;
+                if (board[yPos-1][xPos] != MazeElement.WALL){
+                    board[yPos-1][xPos] = MazeElement.CAT;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    yPos--;
                 }
                 break;
 
             case 1:
-                if (board[yPos-1][xPos] != MazeElement.WALL){
-                    yPos--;
-                    board[yPos-1][xPos] = MazeElement.CAT;
+                if (board[yPos+1][xPos] != MazeElement.WALL){
+                    board[yPos+1][xPos] = MazeElement.CAT;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    yPos++;
                 }
                 break;
 
             case 2:
                 if (board[yPos][xPos-1] != MazeElement.WALL){
-                    xPos--;
                     board[yPos][xPos-1] = MazeElement.CAT;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    xPos--;
                 }
                 break;
 
             case 3:
                 if (board[yPos][xPos+1] != MazeElement.WALL){
-                    xPos++;
                     board[yPos][xPos+1] = MazeElement.CAT;
+                    board[yPos][xPos] = MazeElement.PASSAGE;
+                    xPos++;
                 }
                 break;
 
@@ -83,6 +87,42 @@ public class Cat {
                 System.out.println("Please try one of the following to update cat position: 0(up), 1(down), 2(left), 3(right)");
                 break;
         }
+    }
+
+    boolean isValidMove(MazeElement[][] board) {
+        int randNum = generateRandomNum();
+        switch (randNum) {
+            case 0:
+                if (board[yPos - 1][xPos] != MazeElement.WALL) {
+                    System.out.println("bro why");
+                    return true;
+                }
+                break;
+
+            case 1:
+                if (board[yPos + 1][xPos] != MazeElement.WALL) {
+                    return true;
+                }
+                break;
+
+            case 2:
+                if (board[yPos][xPos - 1] != MazeElement.WALL) {
+                    return true;
+
+                }
+                break;
+
+            case 3:
+                if (board[yPos][xPos + 1] != MazeElement.WALL) {
+                    return true;
+                }
+                break;
+
+            default:
+                return false;
+        }
+
+        return false;
     }
 
     // If cat position == player position, player isDead true.
