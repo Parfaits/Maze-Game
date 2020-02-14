@@ -54,7 +54,6 @@ public class Maze {
 
     private void mazeGenerate() {
         List<int[]> wallPositions = new ArrayList<>();
-        List<int[]> garbage = new ArrayList<>();
         int x = 1;
         int y = 1;
         maze[x][y] = MazeElement.PASSAGE;
@@ -66,14 +65,13 @@ public class Maze {
             int[] wall =  wallPositions.get(randNum);
 
             if (wall[0] > 0 && wall[1] > 0 && wall[0] < length-1 && wall[1] < width-1) {
-//                System.err.println("wallPoistionsSize= " + wallPositions.size());
 
                 if (
                         (maze[wall[1] + 1][wall[0]] == MazeElement.PASSAGE && maze[wall[1] - 1][wall[0]] ==
                         MazeElement.WALL && maze[wall[1]][wall[0] + 1] == MazeElement.WALL && maze[wall[1]][wall[0] - 1] == MazeElement.WALL)
 
                 || (maze[wall[1] - 1][wall[0]] == MazeElement.PASSAGE && maze[wall[1] + 1][wall[0]] ==
-                        MazeElement.WALL && maze[wall[0] + 1][wall[1]] == MazeElement.WALL && maze[wall[0] - 1][wall[1]] == MazeElement.WALL)
+                        MazeElement.WALL && maze[wall[1]][wall[0] + 1] == MazeElement.WALL && maze[wall[1]][wall[0] - 1] == MazeElement.WALL)
 
                 || (maze[wall[1]][wall[0] + 1] == MazeElement.PASSAGE && maze[wall[1]][wall[0] - 1] ==
                         MazeElement.WALL && maze[wall[1] + 1][wall[0]] == MazeElement.WALL && maze[wall[1] - 1][wall[0]] == MazeElement.WALL)
@@ -83,40 +81,28 @@ public class Maze {
 
 
                 ) {
-
-//                    System.err.println("BRO WHY");
+                    
                     maze[wall[1]][wall[0]] = MazeElement.PASSAGE;
 
-                    if (wall[1] + 1 < length-1 && maze[wall[1] + 1][wall[0]] == MazeElement.WALL) {
+                    if (maze[wall[1] + 1][wall[0]] == MazeElement.WALL) {
                         System.err.println("add wall[1] + 1 = " + (wall[1] + 1));
-                        int[] newWall = {wall[0], wall[1] + 1};
-                        if (!isInGarbage(garbage, newWall)) {
-
-                            wallPositions.add(newWall);
-                        }
+                        wallPositions.add(new int[]{wall[0], wall[1] + 1});
                     }
-                    if (wall[1] - 1 > 0 && maze[wall[1] - 1][wall[0]] == MazeElement.WALL) {
+                    if (maze[wall[1] - 1][wall[0]] == MazeElement.WALL) {
                         System.err.println("add wall[1] - 1 = " + (wall[1] - 1));
                         wallPositions.add(new int[]{wall[0], wall[1] - 1});
                     }
-                    if (wall[0] + 1 < width-1 && maze[wall[1]][wall[0] + 1] == MazeElement.WALL) {
+                    if (maze[wall[1]][wall[0] + 1] == MazeElement.WALL) {
                         System.err.println("add wall[0] + 1 = " + (wall[0] + 1));
                         wallPositions.add(new int[]{wall[0] + 1, wall[1]});
                     }
-                    if (wall[0] - 1 > 0 && maze[wall[1]][wall[0] - 1] == MazeElement.WALL) {
+                    if (maze[wall[1]][wall[0] - 1] == MazeElement.WALL) {
                         System.err.println("add wall[0] - 1 = " + (wall[0] - 1));
                         wallPositions.add(new int[]{wall[0] - 1, wall[1]});
                     }
                 }
-//                wallPositions.remove(wall);
             }
             wallPositions.remove(wall);
-        }
-    }
-
-    private boolean isInGarbage(List<int[]> garbage, int[] newWall) {
-        for (int[] wallPos : garbage) {
-            
         }
     }
 
