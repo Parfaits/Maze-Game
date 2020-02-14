@@ -59,22 +59,27 @@ public class TextUI {
     private String handleInvalidUserInput(String input) {
         String command = input;
         while (!(game.isMoveValidPlayer(command)
-                || command.equalsIgnoreCase("w")
+                && (command.equalsIgnoreCase("w")
                 || command.equalsIgnoreCase("a")
                 || command.equalsIgnoreCase("s")
-                || command.equalsIgnoreCase("d")
+                || command.equalsIgnoreCase("d"))
                 || command.equalsIgnoreCase("c")
                 || command.equalsIgnoreCase("m"))) {
 
-            if (!game.isMoveValidPlayer(command)) {
-                System.out.println("BRUH STOP");
+            if (!(command.equalsIgnoreCase("w")
+                    || command.equalsIgnoreCase("a")
+                    || command.equalsIgnoreCase("s")
+                    || command.equalsIgnoreCase("d"))) {
+
                 System.out.println("Invalid move. Please enter just A (left), S (down), D (right), or W (up).");
             } else {
-                System.out.println("WTF");
+                System.out.println("Invalid move: you cannot move through walls!");
+
             }
             System.out.print("Enter your move [WASD?]: ");
             command = in.nextLine();
         }
+
         return command;
     }
 
