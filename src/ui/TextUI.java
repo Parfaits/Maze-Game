@@ -33,6 +33,7 @@ public class TextUI {
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
+                displayInstructionsUponQuestionMark(command);
                 System.out.println();
 
                 if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
@@ -67,7 +68,8 @@ public class TextUI {
                 || command.equalsIgnoreCase("s")
                 || command.equalsIgnoreCase("d"))
                 || command.equalsIgnoreCase("c")
-                || command.equalsIgnoreCase("m"))) {
+                || command.equalsIgnoreCase("m")
+                || command.equalsIgnoreCase("?"))) {
 
             if (!(command.equalsIgnoreCase("w")
                     || command.equalsIgnoreCase("a")
@@ -169,6 +171,12 @@ public class TextUI {
         System.out.println("        Use W (up), A (left), S (down) and D (right) to move.");
         System.out.println("        (You must press enter after each move).");
         System.out.println();
+    }
+
+    void displayInstructionsUponQuestionMark(String command){
+        if (command.equals("?")){
+            displayInstructions();
+        }
     }
 
 
