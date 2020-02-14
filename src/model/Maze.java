@@ -85,19 +85,15 @@ public class Maze {
                     maze[wall[1]][wall[0]] = MazeElement.PASSAGE;
 
                     if (maze[wall[1] + 1][wall[0]] == MazeElement.WALL) {
-                        System.err.println("add wall[1] + 1 = " + (wall[1] + 1));
                         wallPositions.add(new int[]{wall[0], wall[1] + 1});
                     }
                     if (maze[wall[1] - 1][wall[0]] == MazeElement.WALL) {
-                        System.err.println("add wall[1] - 1 = " + (wall[1] - 1));
                         wallPositions.add(new int[]{wall[0], wall[1] - 1});
                     }
                     if (maze[wall[1]][wall[0] + 1] == MazeElement.WALL) {
-                        System.err.println("add wall[0] + 1 = " + (wall[0] + 1));
                         wallPositions.add(new int[]{wall[0] + 1, wall[1]});
                     }
                     if (maze[wall[1]][wall[0] - 1] == MazeElement.WALL) {
-                        System.err.println("add wall[0] - 1 = " + (wall[0] - 1));
                         wallPositions.add(new int[]{wall[0] - 1, wall[1]});
                     }
                 }
