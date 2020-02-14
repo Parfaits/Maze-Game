@@ -148,7 +148,7 @@ public class TextUI {
         }
     }
 
-    void displayTitle(){
+    private void displayTitle(){
         System.out.println("----------------------------------------");
         System.out.println("Welcome to Cat and Mouse Maze Adventure!");
         System.out.println("by Johnny D and Fazal W");
@@ -156,9 +156,9 @@ public class TextUI {
         System.out.println();
     }
 
-    void displayInstructions(){
+    private void displayInstructions(){
         System.out.println("DIRECTIONS:");
-        System.out.println("        Find 5 cheese before a cat eats you!");
+        System.out.println("        Find " + game.getMaxWins() + " cheese before a cat eats you!");
 
         System.out.println("LEGEND:");
         System.out.println("        #: Wall");
