@@ -26,10 +26,10 @@ public class TextUI {
         displayInstructions();
 
         while (!game.isGameEnd()) {
+            game.updatePlayerInBoardMask();
+            printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
+            System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
             while (!game.isPlayerDead()) {
-                game.updatePlayerInBoardMask();
-                printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
-                System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
@@ -37,7 +37,7 @@ public class TextUI {
 
                 if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
                     game.handleMovementCommands(command);
-//                    printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
+                    printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
                 } else if (command.equalsIgnoreCase("c")) {
                     game.setMaxWins((byte) 1);
                 } else if (command.equalsIgnoreCase("m")) {
@@ -47,13 +47,16 @@ public class TextUI {
 
 
                 if (game.isPlayerWin()) {
-                    System.out.println("SWAAAAG");
+                    System.out.println("Round Won.");
                     break;
                 }
+
             }
             game.init(width, length);
         }
         System.out.println("Congratulations you won!");
+        printMaze(game.getBoard(), new int[]{}, new int[]{}, new int[]{}, new int[]{});
+        System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
     }
 
     private String handleInvalidUserInput(String input) {
