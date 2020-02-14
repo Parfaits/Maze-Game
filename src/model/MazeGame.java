@@ -46,9 +46,9 @@ public class MazeGame {
                 || board[width-2][length-2] == MazeElement.WALL);
 
         player = new Player(1, 1, false);
-        tom = new Cat(1, length-2);
-        joe = new Cat(width-2, 1);
-        chad = new Cat(width-2, length-2);
+        tom = new Cat(1, width-2);
+        joe = new Cat(length-2, 1);
+        chad = new Cat(length-2, width-2);
 
         board[1][1] = MazeElement.PLAYER;
         board[1][length-2] = MazeElement.CAT;
