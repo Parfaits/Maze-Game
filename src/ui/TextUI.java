@@ -38,10 +38,12 @@ public class TextUI {
 
 
                 if (game.isPlayerWin()) {
-                    System.out.println("Round Won.");
+                    System.out.println("Cheese eaten\nYOU WIN~!!!!");
                     break;
                 }
-
+                if (game.isPlayerDead()) {
+                    System.out.println("Cat ate the mouse (you)\nYOU LOSE REKT GET GUD~!!~!!!!");
+                }
             }
             game.init(width, length);
         }

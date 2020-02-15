@@ -16,9 +16,6 @@ public class MazeGame {
     private Cat joe;
     private Cat chad;
     private int[] cheesePosition;
-    private MazeElement tomCurrentCell;
-    private MazeElement joeCurrentCell;
-    private MazeElement chadCurrentCell;
     private byte wins;
     private byte maxWins;
 
@@ -45,7 +42,7 @@ public class MazeGame {
                 || board[width-2][1] == MazeElement.WALL
                 || board[width-2][length-2] == MazeElement.WALL);
 
-        player = new Player(1, 1, false);
+        player = new Player(1, 1);
         tom = new Cat(1, width-2);
         joe = new Cat(length-2, 1);
         chad = new Cat(length-2, width-2);
@@ -68,7 +65,6 @@ public class MazeGame {
         boardMask[randY][randX] = MazeElement.CHEESE;
     }
 
-    // TODO: 2020-02-12 Player.class && Cat.class
     public void handleMovementCommands(String command) {
         assert isMoveValidPlayer(command);
         player.move(board, command);
@@ -77,25 +73,14 @@ public class MazeGame {
         chad.move(board);
 
         updatePlayerInBoardMask();
-        updateCatsInBoardMask();
     }
 
 
-    private void updateCatsInBoardMask() {
-        assert isMoveValidTom();
-        tom.move(board);
-        assert isMoveValidJoe();
-        joe.move(board);
-        assert isMoveValidChad();
-        chad.move(board);
-
-    }
 
     public void updatePlayerInBoardMask() {
         int playerY = player.getYPos();
         int playerX = player.getXPos();
 
-//        boardMask[playerY][playerX] = board[playerY][playerX];
 
         if (playerX+1 != length-1) {
             boardMask[playerY][playerX+1] = board[playerY][playerX+1];
@@ -136,10 +121,7 @@ public class MazeGame {
             return true;
         }else if (player.getYPos() == joe.getYPos() && player.getXPos() == joe.getXPos()){
             return true;
-        }else if (player.getYPos() == chad.getYPos() && player.getXPos() == chad.getXPos()){
-            return true;
-        }
-        return false;
+        }else return player.getYPos() == chad.getYPos() && player.getXPos() == chad.getXPos();
     }
 
     public byte getWins() {
@@ -154,30 +136,6 @@ public class MazeGame {
         return player.isValidMove(board, direction);
     }
 
-    public boolean isMoveValidTom() {
-        return tom.isValidMove(board);
-    }
-
-    public boolean isMoveValidJoe() {
-        return joe.isValidMove(board);
-    }
-
-    public boolean isMoveValidChad() {
-        return chad.isValidMove(board);
-    }
-
-    MazeElement getTomCurrentCell() {
-        return tomCurrentCell;
-    }
-
-    MazeElement getJoeCurrentCell() {
-        return joeCurrentCell;
-    }
-
-    MazeElement getChadCurrentCell() {
-        return chadCurrentCell;
-    }
-
     public void setMaxWins(byte maxWins) {
         this.maxWins = maxWins;
     }
@@ -185,10 +143,6 @@ public class MazeGame {
     public boolean isGameEnd() {
         return wins == maxWins;
     }
-
-//    public boolean isPlayerDead() {
-//        return player.isDead();
-//    }
 
     public int[] getPlayerPosition() {
         return player.getPlayerPosition();
@@ -204,10 +158,6 @@ public class MazeGame {
 
     public int[] getChadPosition() {
         return chad.getCatPosition();
-    }
-
-    public int[] getCheesePosition() {
-        return cheesePosition;
     }
 
     public MazeElement[][] getBoard() {

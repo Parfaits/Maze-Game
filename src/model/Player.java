@@ -8,26 +8,14 @@ import java.util.Arrays;
  * It also allows player movement upon key input.
  * It also checks to see if the player position == cat position.
  */
-public class Player {
+class Player {
     private int xPos;
     private int yPos;
-    private boolean isDead;
 
     // Constructor
-    Player(int xPos, int yPos, boolean isDead) {
+    Player(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.isDead = isDead;
-    }
-
-
-    // player can change a state depending on a condition
-    void setState(boolean isDead){
-        this.isDead = isDead;
-    }
-
-    public boolean getState(){
-        return isDead;
     }
 
     int getXPos() {
@@ -38,16 +26,9 @@ public class Player {
         return yPos;
     }
 
-    // player has an origin position - reset player position
-    public void setPostionPlayer(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
-
     // gets position of the player in [x, y] form
-    public int[] getPlayerPosition(){
-        int[] pos = {getXPos(), getYPos()};
-        return pos;
+    int[] getPlayerPosition(){
+        return new int[]{getXPos(), getYPos()};
     }
 
     // saves position of player's x and y coordinates upon keyInput - use setPosition() to reset position.
@@ -94,7 +75,6 @@ public class Player {
         switch (move) {
             case "w":
                 if (board[yPos - 1][xPos] != MazeElement.WALL) {
-                    System.out.println("bro why");
                     return true;
                 }
                 break;
@@ -119,24 +99,9 @@ public class Player {
                 break;
 
             default:
-//                System.out.println("Invalid move: you cannot move through walls!");
                 return false;
         }
 
         return false;
-    }
-
-    // If player position == cat position player isDead true.
-    public boolean checkCurrentPosition(boolean isDead, int[] catPos){
-        return getPlayerPosition() == catPos;
-    }
-
-    // Prints the position of the player.
-    public void printPlayerPos(){
-        System.out.println("Player position is : " + Arrays.toString(getPlayerPosition()));
-    }
-
-    boolean isDead() {
-        return isDead;
     }
 }
