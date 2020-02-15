@@ -17,11 +17,11 @@ class Cat {
         this.yPos = yPos;
     }
 
-    int getXPos() {
+    private int getXPos() {
         return xPos;
     }
 
-    int getYPos() {
+    private int getYPos() {
         return yPos;
     }
 
@@ -39,11 +39,18 @@ class Cat {
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
     // FIXME: 2020-02-14 Cat often backtracks. Make so cat can backtracks only when dead end or within 3 moves.
-    void move(MazeElement[][] board){
+    void move(MazeElement[][] board, Player player){
+        if (board[yPos][xPos] == MazeElement.PLAYER) {
+            player.setDead();
+            return;
+        }
         int randNum = generateRandomNum();
         switch (randNum) {
             case 0:
                 if (board[yPos-1][xPos] != MazeElement.WALL){
+                    if (board[yPos-1][xPos] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
                     board[yPos-1][xPos] = MazeElement.CAT;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos--;
@@ -52,6 +59,9 @@ class Cat {
 
             case 1:
                 if (board[yPos+1][xPos] != MazeElement.WALL){
+                    if (board[yPos+1][xPos] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
                     board[yPos+1][xPos] = MazeElement.CAT;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos++;
@@ -60,6 +70,9 @@ class Cat {
 
             case 2:
                 if (board[yPos][xPos-1] != MazeElement.WALL){
+                    if (board[yPos][xPos-1] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
                     board[yPos][xPos-1] = MazeElement.CAT;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos--;
@@ -68,6 +81,9 @@ class Cat {
 
             case 3:
                 if (board[yPos][xPos+1] != MazeElement.WALL){
+                    if (board[yPos][xPos+1] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
                     board[yPos][xPos+1] = MazeElement.CAT;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos++;
