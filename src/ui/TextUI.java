@@ -30,7 +30,7 @@ public class TextUI {
         displayTitle();
         displayInstructions();
 
-        while (!game.isGameEnd()) {
+        while (true) {
             game.updatePlayerInBoardMask();
             displayBoardMask();
             while (!game.isPlayerDead()) {
@@ -43,17 +43,23 @@ public class TextUI {
 
 
                 if (game.isPlayerWin()) {
-                    System.out.println("Cheese eaten\nYOU WIN~!!!!");
+                    System.out.println("Cheese eaten\nRound win.");
+                    displayBoard();
                     break;
                 }
-                if (game.isPlayerDead()) {
-                    System.out.println("Cat ate the mouse (you)\nYOU LOSE REKT GET GUD~!!~!!!!");
-                }
+            }
+            if (game.isPlayerDead()) {
+                System.out.println("Cat ate the mouse (you)\nYOU LOSE REKT GET GUD~!!~!!!!");
+                displayBoard();
+                break;
+            }
+            if (game.isGameEnd()) {
+                System.out.println("Congratulations you won!");
+                displayBoard();
+                break;
             }
             game.init(width, length);
         }
-        System.out.println("Congratulations you won!");
-        displayBoard();
     }
 
     private void displayBoard() {
