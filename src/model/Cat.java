@@ -47,7 +47,7 @@ public class Cat {
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // FIXME: 2020-02-13 Bug where cat's previous position still has itself. // Fixed
+    // FIXME: 2020-02-14 Cat often backtracks. Make so cat can backtracks only when dead end or within 3 moves.
     void move(MazeElement[][] board){
         int randNum = generateRandomNum();
         switch (randNum) {
