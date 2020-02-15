@@ -129,6 +129,7 @@ public class TextUI {
         System.out.println("Maze:");
         int width = game.getWidth();;
         int length = game.getLength();
+        int[] cheesePos = MazeGame.getCheesePosition();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < length; j++) {
 
@@ -142,7 +143,7 @@ public class TextUI {
                         System.out.print("!");
                     } else if (i == chad[1] && j == chad[0]) {
                         System.out.print("!");
-                    } else if (board[i][j] == MazeElement.CHEESE) {
+                    } else if (i == cheesePos[1] && j == cheesePos[0]) {
                         System.out.print("$");
                     } else if (board[i][j] == MazeElement.WALL) {
                         System.out.print("#");

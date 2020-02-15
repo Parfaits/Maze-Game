@@ -21,7 +21,7 @@ public class MazeGame {
     private Cat tom;
     private Cat joe;
     private Cat chad;
-    private int[] cheesePosition;
+    private static int[] cheesePosition;
     private byte wins;
     private byte maxWins;
 
@@ -66,9 +66,8 @@ public class MazeGame {
             randX = random.nextInt(length-2);
         }
 
-        cheesePosition = new int[]{randY, randX};
+        cheesePosition = new int[]{randX, randY};
         board[randY][randX] = MazeElement.CHEESE;
-        boardMask[randY][randX] = MazeElement.CHEESE;
     }
 
     public void handleMovementCommands(String command) {
@@ -98,7 +97,7 @@ public class MazeGame {
     }
 
     public boolean isPlayerWin() {
-        if (player.getYPos() == cheesePosition[0] && player.getXPos() == cheesePosition[1]) {
+        if (player.getYPos() == cheesePosition[1] && player.getXPos() == cheesePosition[0]) {
             wins++;
             return true;
         }
@@ -127,6 +126,10 @@ public class MazeGame {
 
     public boolean isGameEnd() {
         return wins == maxWins;
+    }
+
+    public static int[] getCheesePosition() {
+        return cheesePosition;
     }
 
     public int[] getPlayerPosition() {

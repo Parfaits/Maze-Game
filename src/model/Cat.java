@@ -44,6 +44,7 @@ class Cat {
             player.setDead();
             return;
         }
+        int[] cheesePos = MazeGame.getCheesePosition();
         int randNum = generateRandomNum();
         switch (randNum) {
             case 0:
@@ -51,8 +52,14 @@ class Cat {
                     if (board[yPos-1][xPos] == MazeElement.PLAYER){
                         player.setDead();
                     }
+
                     board[yPos-1][xPos] = MazeElement.CAT;
-                    board[yPos][xPos] = MazeElement.PASSAGE;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     yPos--;
                 }
                 break;
@@ -62,7 +69,14 @@ class Cat {
                     if (board[yPos+1][xPos] == MazeElement.PLAYER){
                         player.setDead();
                     }
+
                     board[yPos+1][xPos] = MazeElement.CAT;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos++;
                 }
@@ -73,7 +87,14 @@ class Cat {
                     if (board[yPos][xPos-1] == MazeElement.PLAYER){
                         player.setDead();
                     }
+
                     board[yPos][xPos-1] = MazeElement.CAT;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos--;
                 }
@@ -84,7 +105,14 @@ class Cat {
                     if (board[yPos][xPos+1] == MazeElement.PLAYER){
                         player.setDead();
                     }
+
                     board[yPos][xPos+1] = MazeElement.CAT;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos++;
                 }
