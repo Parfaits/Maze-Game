@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class generates a maze with an outer wall using pirm's algorithm.
+ * The four corners of the maze will never be covered with a wall because checkCorners()
+ * generates a new one.
+ * */
+
 public class Maze {
     private int width;
     private int length;

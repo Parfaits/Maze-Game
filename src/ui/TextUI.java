@@ -5,6 +5,11 @@ import model.MazeGame;
 
 import java.util.Scanner;
 
+/**
+ * Given a MazeGame, The class outputs the results of the game
+ * to the user also handling user inputs.
+ * */
+
 public class TextUI {
 
     // TODO: 2020-02-13 Make UI more gud
