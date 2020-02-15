@@ -27,37 +27,63 @@ public class TextUI {
 
         while (!game.isGameEnd()) {
             game.updatePlayerInBoardMask();
-            printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
-            System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
+            displayBoardMask();
             while (!game.isPlayerDead()) {
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
-                displayInstructionsUponQuestionMark(command);
                 System.out.println();
 
-                if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
-                    game.handleMovementCommands(command);
-                    printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
-                } else if (command.equalsIgnoreCase("c")) {
-                    game.setMaxWins((byte) 1);
-                } else if (command.equalsIgnoreCase("m")) {
-                    printMaze(game.getBoard(), new int[]{}, new int[]{}, new int[]{}, new int[]{});
-
-                }
+                handleUserCommands(command);
 
 
                 if (game.isPlayerWin()) {
-                    System.out.println("Round Won.");
+                    System.out.println("Cheese eaten\nYOU WIN~!!!!");
                     break;
                 }
-
+                if (game.isPlayerDead()) {
+                    System.out.println("Cat ate the mouse (you)\nYOU LOSE REKT GET GUD~!!~!!!!");
+                }
             }
             game.init(width, length);
         }
         System.out.println("Congratulations you won!");
+        displayBoard();
+    }
+
+    private void displayBoard() {
         printMaze(game.getBoard(), new int[]{}, new int[]{}, new int[]{}, new int[]{});
         System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
+    }
+
+    private void displayBoardMask() {
+        printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
+        System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
+    }
+
+    private void handleUserCommands(String command) {
+        switch (command) {
+            case "w": case "a": case "s": case "d":
+                game.handleMovementCommands(command);
+                displayBoardMask();
+                break;
+
+            case "c":
+                game.setMaxWins((byte) 1);
+                break;
+
+            case "m":
+                displayBoard();
+                break;
+
+            case "?":
+                displayInstructions();
+                break;
+
+            default:
+                System.err.println("Unexpected command.");
+                break;
+        }
     }
 
     private String handleInvalidUserInput(String input) {
@@ -129,20 +155,6 @@ public class TextUI {
                         System.out.print(" ");
                     }
                 }
-
-//                if (board[i][j] == MazeElement.WALL) {
-//                    System.out.print("#");
-//                } else if (board[i][j] == MazeElement.PLAYER) {
-//                    System.out.print("@");
-//                } else if (board[i][j] == MazeElement.CAT) {
-//                    System.out.print("!");
-//                } else if (board[i][j] == MazeElement.CHEESE) {
-//                    System.out.print("$");
-//                } else if (board[i][j] == MazeElement.HIDDEN) {
-//                    System.out.print(".");
-//                } else {
-//                    System.out.print(" ");
-//                }
             }
             System.out.println();
         }
@@ -171,12 +183,6 @@ public class TextUI {
         System.out.println("        Use W (up), A (left), S (down) and D (right) to move.");
         System.out.println("        (You must press enter after each move).");
         System.out.println();
-    }
-
-    void displayInstructionsUponQuestionMark(String command){
-        if (command.equals("?")){
-            displayInstructions();
-        }
     }
 
 
