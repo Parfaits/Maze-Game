@@ -8,31 +8,23 @@ package model;
 class Player {
     private int xPos;
     private int yPos;
+    private boolean isDead;
 
-    // Constructor
-    Player(int xPos, int yPos) {
+    Player(int xPos, int yPos, boolean isDead) {
         this.xPos = xPos;
         this.yPos = yPos;
-    }
-
-    int getXPos() {
-        return xPos;
-    }
-
-    int getYPos() {
-        return yPos;
-    }
-
-    // gets position of the player in [x, y] form
-    int[] getPlayerPosition(){
-        return new int[]{getXPos(), getYPos()};
+        this.isDead = isDead;
     }
 
     // saves position of player's x and y coordinates upon keyInput - use setPosition() to reset position.
+
     void move(MazeElement[][] board, String keyInput){
         switch (keyInput) {
             case "w":
                 if (board[yPos-1][xPos] != MazeElement.WALL){
+                    if (board[yPos-1][xPos] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos-1][xPos] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos--;
@@ -41,6 +33,9 @@ class Player {
 
             case "s":
                 if (board[yPos+1][xPos] != MazeElement.WALL){
+                    if (board[yPos+1][xPos] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos+1][xPos] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos++;
@@ -49,6 +44,9 @@ class Player {
 
             case "a":
                 if (board[yPos][xPos-1] != MazeElement.WALL){
+                    if (board[yPos][xPos-1] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos][xPos-1] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos--;
@@ -57,6 +55,9 @@ class Player {
 
             case "d":
                 if (board[yPos][xPos+1] != MazeElement.WALL){
+                    if (board[yPos][xPos+1] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos][xPos+1] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos++;
@@ -67,7 +68,6 @@ class Player {
                 break;
         }
     }
-
     boolean isValidMove(MazeElement[][] board, String move) {
         switch (move) {
             case "w":
@@ -100,5 +100,25 @@ class Player {
         }
 
         return false;
+    }
+
+    int getXPos() {
+        return xPos;
+    }
+
+    int getYPos() {
+        return yPos;
+    }
+
+    int[] getPlayerPosition(){
+        return new int[]{getXPos(), getYPos()};
+    }
+
+    boolean isDead() {
+        return isDead;
+    }
+
+    void setDead() {
+        isDead = true;
     }
 }

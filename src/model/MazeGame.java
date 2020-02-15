@@ -48,7 +48,7 @@ public class MazeGame {
                 || board[width-2][1] == MazeElement.WALL
                 || board[width-2][length-2] == MazeElement.WALL);
 
-        player = new Player(1, 1);
+        player = new Player(1, 1, false);
         tom = new Cat(1, width-2);
         joe = new Cat(length-2, 1);
         chad = new Cat(length-2, width-2);
@@ -74,13 +74,12 @@ public class MazeGame {
     public void handleMovementCommands(String command) {
         assert isMoveValidPlayer(command);
         player.move(board, command);
-        tom.move(board);
-        joe.move(board);
-        chad.move(board);
+        tom.move(board, player);
+        joe.move(board, player);
+        chad.move(board, player);
 
         updatePlayerInBoardMask();
     }
-
 
 
     public void updatePlayerInBoardMask() {
@@ -88,30 +87,14 @@ public class MazeGame {
         int playerX = player.getXPos();
 
 
-        if (playerX+1 != length-1) {
-            boardMask[playerY][playerX+1] = board[playerY][playerX+1];
-        }
-        if (playerX-1 != 0) {
-            boardMask[playerY][playerX-1] = board[playerY][playerX-1];
-        }
-        if (playerY+1 != width-1) {
-            boardMask[playerY+1][playerX] = board[playerY+1][playerX];
-        }
-        if (playerY-1 != 0) {
-            boardMask[playerY-1][playerX] = board[playerY-1][playerX];
-        }
-        if (playerX-1 != 0 && playerY-1 != 0) {
-            boardMask[playerY-1][playerX-1] = board[playerY-1][playerX-1];
-        }
-        if (playerX+1 != length-1 && playerY+1 != width-1) {
-            boardMask[playerY+1][playerX+1] = board[playerY+1][playerX+1];
-        }
-        if (playerX+1 != length-1 && playerY-1 != 0) {
-            boardMask[playerY-1][playerX+1] = board[playerY-1][playerX+1];
-        }
-        if (playerX-1 != 0 && playerY+1 != width-1) {
-            boardMask[playerY+1][playerX-1] = board[playerY+1][playerX-1];
-        }
+        boardMask[playerY][playerX+1] = board[playerY][playerX+1];
+        boardMask[playerY][playerX-1] = board[playerY][playerX-1];
+        boardMask[playerY+1][playerX] = board[playerY+1][playerX];
+        boardMask[playerY-1][playerX] = board[playerY-1][playerX];
+        boardMask[playerY-1][playerX-1] = board[playerY-1][playerX-1];
+        boardMask[playerY+1][playerX+1] = board[playerY+1][playerX+1];
+        boardMask[playerY-1][playerX+1] = board[playerY-1][playerX+1];
+        boardMask[playerY+1][playerX-1] = board[playerY+1][playerX-1];
     }
 
     public boolean isPlayerWin() {
@@ -123,11 +106,7 @@ public class MazeGame {
     }
 
     public boolean isPlayerDead(){
-        if (player.getYPos() == tom.getYPos() && player.getXPos() == tom.getXPos()){
-            return true;
-        }else if (player.getYPos() == joe.getYPos() && player.getXPos() == joe.getXPos()){
-            return true;
-        }else return player.getYPos() == chad.getYPos() && player.getXPos() == chad.getXPos();
+        return player.isDead();
     }
 
     public byte getWins() {
