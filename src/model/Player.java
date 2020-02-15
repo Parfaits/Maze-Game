@@ -1,8 +1,5 @@
 package model;
 
-import javax.xml.transform.sax.SAXSource;
-import java.util.Arrays;
-
 /**
  * This class gets and sets the position of the player.
  * It also allows player movement upon key input.

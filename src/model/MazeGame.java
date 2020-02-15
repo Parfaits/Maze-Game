@@ -2,9 +2,15 @@ package model;
 
 import java.util.Random;
 
+/**
+ * Class handles all the game's logic. Such as,
+ * updating the board and it's mask (a mask is the layer on top of the board
+ * which hides the view of the board from the player)
+ * All it needs is a user input and will do the updates, then the TextUI can get the boards.
+* */
+
 public class MazeGame {
 
-    // TODO: 2020-02-13 implement player die logic
     // TODO: 2020-02-13 Check all [][] if the values are placed in the right brackets [y][x] [width][length] 
 
     private MazeElement[][] board;
