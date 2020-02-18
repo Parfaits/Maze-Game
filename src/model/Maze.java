@@ -11,6 +11,7 @@ import java.util.Random;
  * */
 
 public class Maze {
+    private static final int NUM_WALLS_TO_REMOVE = 3;
     private int width;
     private int length;
     private MazeElement[][] maze;
@@ -20,11 +21,16 @@ public class Maze {
     public Maze(int width, int length) {
         this.width = width;
         this.length = length;
+        assert width > 3 && length > 3;
         this.maze = new MazeElement[width][length];
         this.mazeMask = new MazeElement[width][length];
         initMaze();
         mazeGenerate();
         checkCorners();
+        check2x2Walls();
+        for (int i = 0; i < NUM_WALLS_TO_REMOVE; i++) {
+            createCycles();
+        }
         mazeMaskGenerate();
     }
 
@@ -36,6 +42,70 @@ public class Maze {
             initMaze();
             mazeGenerate();
         }
+    }
+
+    // TODO: 2020-02-18 test plzzzzz there should be no 2x2 walls and the 4 corners should be open and no inf loop
+    private void check2x2Walls() {
+        for (int i = 2; i < width-3; i++) {
+            for (int j = 2; j < length-3; j++) {
+                if (maze[i][j] == MazeElement.WALL
+                        && ((maze[i][j+1] == MazeElement.WALL
+                        && maze[i+1][j+1] == MazeElement.WALL
+                        && maze[i+1][j] == MazeElement.WALL)
+
+                        || (maze[i][j+1] == MazeElement.WALL
+                        && maze[i-1][j+1] == MazeElement.WALL
+                        && maze[i-1][j] == MazeElement.WALL)
+
+                        || (maze[i][j-1] == MazeElement.WALL
+                        && maze[i-1][j-1] == MazeElement.WALL
+                        && maze[i-1][j] == MazeElement.WALL)
+
+                        || (maze[i][j-1] == MazeElement.WALL
+                        && maze[i+1][j-1] == MazeElement.WALL
+                        && maze[i+1][j] == MazeElement.WALL)
+                            )
+                ) {
+                    initMaze();
+                    mazeGenerate();
+                    checkCorners();
+                    i = 2;
+                    j = 2;
+                }
+            }
+        }
+    }
+
+    // TODO: 2020-02-18 Plz test if it creates 2x2 passage
+    private void createCycles() {
+        int upperBoundY = width - 2 + 1;
+        int upperBoundX = length - 2 + 1;
+        int lowerBound = 1;
+        int randY = random.nextInt(upperBoundY - lowerBound) + lowerBound;
+        int randX = random.nextInt(upperBoundX - lowerBound) + lowerBound;
+        while (maze[randY][randX] != MazeElement.WALL
+                || ((maze[randY][randX+1] == MazeElement.PASSAGE
+                && maze[randY+1][randX+1] == MazeElement.PASSAGE
+                && maze[randY+1][randX] == MazeElement.PASSAGE)
+
+                || (maze[randY][randX+1] == MazeElement.PASSAGE
+                && maze[randY-1][randX+1] == MazeElement.PASSAGE
+                && maze[randY-1][randX] == MazeElement.PASSAGE)
+
+                || (maze[randY][randX-1] == MazeElement.PASSAGE
+                && maze[randY-1][randX-1] == MazeElement.PASSAGE
+                && maze[randY-1][randX] == MazeElement.PASSAGE)
+
+                || (maze[randY][randX-1] == MazeElement.PASSAGE
+                && maze[randY+1][randX-1] == MazeElement.PASSAGE
+                && maze[randY+1][randX] == MazeElement.PASSAGE)
+                    )
+        ) {
+           randY = random.nextInt(upperBoundY - lowerBound) + lowerBound;
+           randX = random.nextInt(upperBoundX - lowerBound) + lowerBound;
+        }
+        System.err.println("randX=" + randX + " randY=" + randY);
+        maze[randY][randX] = MazeElement.PASSAGE;
     }
 
     private void mazeMaskGenerate() {
