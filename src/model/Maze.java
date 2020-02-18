@@ -7,7 +7,11 @@ import java.util.Random;
 /**
  * Class generates a maze with an outer wall using pirm's algorithm.
  * The four corners of the maze will never be covered with a wall because checkCorners()
- * generates a new one.
+ * generates a new one. Also, the maze is checked for 2x2 walls inside the outer walls
+ * and is regenerated and checkCorners() again.
+ * The maze is also generated cycles depending on NUM_WALLS_TO_REMOVE
+ * In the end there should be no 2x2 walls, no 2x2 passage, the 4 corners should be accessible
+ * and the maze has cycles.
  * */
 
 public class Maze {
