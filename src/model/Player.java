@@ -1,60 +1,30 @@
 package model;
 
-import javax.xml.transform.sax.SAXSource;
-import java.util.Arrays;
-
 /**
  * This class gets and sets the position of the player.
  * It also allows player movement upon key input.
  * It also checks to see if the player position == cat position.
  */
-public class Player {
+class Player {
     private int xPos;
     private int yPos;
     private boolean isDead;
 
-    // Constructor
     Player(int xPos, int yPos, boolean isDead) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.isDead = isDead;
     }
 
-
-    // player can change a state depending on a condition
-    void setState(boolean isDead){
-        this.isDead = isDead;
-    }
-
-    public boolean getState(){
-        return isDead;
-    }
-
-    int getXPos() {
-        return xPos;
-    }
-
-    int getYPos() {
-        return yPos;
-    }
-
-    // player has an origin position - reset player position
-    public void setPostionPlayer(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
-
-    // gets position of the player in [x, y] form
-    public int[] getPlayerPosition(){
-        int[] pos = {getXPos(), getYPos()};
-        return pos;
-    }
-
     // saves position of player's x and y coordinates upon keyInput - use setPosition() to reset position.
+
     void move(MazeElement[][] board, String keyInput){
         switch (keyInput) {
             case "w":
                 if (board[yPos-1][xPos] != MazeElement.WALL){
+                    if (board[yPos-1][xPos] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos-1][xPos] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos--;
@@ -63,6 +33,9 @@ public class Player {
 
             case "s":
                 if (board[yPos+1][xPos] != MazeElement.WALL){
+                    if (board[yPos+1][xPos] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos+1][xPos] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos++;
@@ -71,6 +44,9 @@ public class Player {
 
             case "a":
                 if (board[yPos][xPos-1] != MazeElement.WALL){
+                    if (board[yPos][xPos-1] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos][xPos-1] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos--;
@@ -79,6 +55,9 @@ public class Player {
 
             case "d":
                 if (board[yPos][xPos+1] != MazeElement.WALL){
+                    if (board[yPos][xPos+1] == MazeElement.CAT) {
+                        isDead = true;
+                    }
                     board[yPos][xPos+1] = MazeElement.PLAYER;
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos++;
@@ -89,12 +68,10 @@ public class Player {
                 break;
         }
     }
-
     boolean isValidMove(MazeElement[][] board, String move) {
         switch (move) {
             case "w":
                 if (board[yPos - 1][xPos] != MazeElement.WALL) {
-                    System.out.println("bro why");
                     return true;
                 }
                 break;
@@ -119,24 +96,29 @@ public class Player {
                 break;
 
             default:
-//                System.out.println("Invalid move: you cannot move through walls!");
                 return false;
         }
 
         return false;
     }
 
-    // If player position == cat position player isDead true.
-    public boolean checkCurrentPosition(boolean isDead, int[] catPos){
-        return getPlayerPosition() == catPos;
+    int getXPos() {
+        return xPos;
     }
 
-    // Prints the position of the player.
-    public void printPlayerPos(){
-        System.out.println("Player position is : " + Arrays.toString(getPlayerPosition()));
+    int getYPos() {
+        return yPos;
+    }
+
+    int[] getPlayerPosition(){
+        return new int[]{getXPos(), getYPos()};
     }
 
     boolean isDead() {
         return isDead;
+    }
+
+    void setDead() {
+        isDead = true;
     }
 }

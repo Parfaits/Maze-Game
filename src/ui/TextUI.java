@@ -5,6 +5,11 @@ import model.MazeGame;
 
 import java.util.Scanner;
 
+/**
+ * Given a MazeGame, The class outputs the results of the game
+ * to the user also handling user inputs.
+ * */
+
 public class TextUI {
 
     // TODO: 2020-02-13 Make UI more gud
@@ -25,58 +30,98 @@ public class TextUI {
         displayTitle();
         displayInstructions();
 
-        while (!game.isGameEnd()) {
+        while (true) {
+            game.updatePlayerInBoardMask();
+            displayBoardMask();
             while (!game.isPlayerDead()) {
-                game.updatePlayerInBoardMask();
-                printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
-                System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
                 System.out.print("Enter your move [WASD?]: ");
                 String input = in.nextLine();
                 String command = handleInvalidUserInput(input);
-                displayInstructionsUponQuestionMark(command);
                 System.out.println();
 
-                if (!(command.equalsIgnoreCase("c") || command.equalsIgnoreCase("m"))) {
-                    game.handleMovementCommands(command);
-//                    printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
-                } else if (command.equalsIgnoreCase("c")) {
-                    game.setMaxWins((byte) 1);
-                } else if (command.equalsIgnoreCase("m")) {
-                    printMaze(game.getBoard(), new int[]{}, new int[]{}, new int[]{}, new int[]{});
-
-                }
+                handleUserCommands(command);
 
 
                 if (game.isPlayerWin()) {
-                    System.out.println("SWAAAAG");
+                    System.out.println("Cheese eaten\nRound win.");
+                    displayBoard();
                     break;
                 }
             }
+            if (game.isPlayerDead()) {
+                System.out.println("Cat ate the mouse (you)\nYOU LOSE REKT GET GUD~!!~!!!!");
+                displayBoard();
+                break;
+            }
+            if (game.isGameEnd()) {
+                System.out.println("Congratulations you won!");
+                displayBoard();
+                break;
+            }
             game.init(width, length);
         }
-        System.out.println("Congratulations you won!");
+    }
+
+    private void displayBoard() {
+        printMaze(game.getBoard(), new int[]{}, new int[]{}, new int[]{}, new int[]{});
+        System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
+    }
+
+    private void displayBoardMask() {
+        printMaze(game.getBoardMask(), game.getPlayerPosition(), game.getTomPosition(), game.getJoePosition(), game.getChadPosition());
+        System.out.println("Cheese collected: " + game.getWins() + " of " + game.getMaxWins());
+    }
+
+    private void handleUserCommands(String command) {
+        switch (command) {
+            case "w": case "a": case "s": case "d":
+                game.handleMovementCommands(command);
+                displayBoardMask();
+                break;
+
+            case "c":
+                game.setMaxWins((byte) 1);
+                break;
+
+            case "m":
+                displayBoard();
+                break;
+
+            case "?":
+                displayInstructions();
+                break;
+
+            default:
+                System.err.println("Unexpected command.");
+                break;
+        }
     }
 
     private String handleInvalidUserInput(String input) {
         String command = input;
         while (!(game.isMoveValidPlayer(command)
-                || command.equalsIgnoreCase("w")
+                && (command.equalsIgnoreCase("w")
                 || command.equalsIgnoreCase("a")
                 || command.equalsIgnoreCase("s")
-                || command.equalsIgnoreCase("d")
+                || command.equalsIgnoreCase("d"))
                 || command.equalsIgnoreCase("c")
                 || command.equalsIgnoreCase("m")
                 || command.equalsIgnoreCase("?"))) {
 
-            if (!game.isMoveValidPlayer(command)) {
-                System.out.println("BRUH STOP");
+            if (!(command.equalsIgnoreCase("w")
+                    || command.equalsIgnoreCase("a")
+                    || command.equalsIgnoreCase("s")
+                    || command.equalsIgnoreCase("d"))) {
+
                 System.out.println("Invalid move. Please enter just A (left), S (down), D (right), or W (up).");
             } else {
-                System.out.println("WTF");
+                System.out.println("Invalid move: you cannot move through walls!");
+
             }
             System.out.print("Enter your move [WASD?]: ");
             command = in.nextLine();
         }
+
         return command;
     }
 
@@ -84,6 +129,7 @@ public class TextUI {
         System.out.println("Maze:");
         int width = game.getWidth();;
         int length = game.getLength();
+        int[] cheesePos = MazeGame.getCheesePosition();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < length; j++) {
 
@@ -97,7 +143,7 @@ public class TextUI {
                         System.out.print("!");
                     } else if (i == chad[1] && j == chad[0]) {
                         System.out.print("!");
-                    } else if (board[i][j] == MazeElement.CHEESE) {
+                    } else if (i == cheesePos[1] && j == cheesePos[0]) {
                         System.out.print("$");
                     } else if (board[i][j] == MazeElement.WALL) {
                         System.out.print("#");
@@ -121,26 +167,12 @@ public class TextUI {
                         System.out.print(" ");
                     }
                 }
-
-//                if (board[i][j] == MazeElement.WALL) {
-//                    System.out.print("#");
-//                } else if (board[i][j] == MazeElement.PLAYER) {
-//                    System.out.print("@");
-//                } else if (board[i][j] == MazeElement.CAT) {
-//                    System.out.print("!");
-//                } else if (board[i][j] == MazeElement.CHEESE) {
-//                    System.out.print("$");
-//                } else if (board[i][j] == MazeElement.HIDDEN) {
-//                    System.out.print(".");
-//                } else {
-//                    System.out.print(" ");
-//                }
             }
             System.out.println();
         }
     }
 
-    void displayTitle(){
+    private void displayTitle(){
         System.out.println("----------------------------------------");
         System.out.println("Welcome to Cat and Mouse Maze Adventure!");
         System.out.println("by Johnny D and Fazal W");
@@ -148,9 +180,9 @@ public class TextUI {
         System.out.println();
     }
 
-    void displayInstructions(){
+    private void displayInstructions(){
         System.out.println("DIRECTIONS:");
-        System.out.println("        Find 5 cheese before a cat eats you!");
+        System.out.println("        Find " + game.getMaxWins() + " cheese before a cat eats you!");
 
         System.out.println("LEGEND:");
         System.out.println("        #: Wall");
@@ -163,12 +195,6 @@ public class TextUI {
         System.out.println("        Use W (up), A (left), S (down) and D (right) to move.");
         System.out.println("        (You must press enter after each move).");
         System.out.println();
-    }
-
-    void displayInstructionsUponQuestionMark(String command){
-        if (command.equals("?")){
-            displayInstructions();
-        }
     }
 
 

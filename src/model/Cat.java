@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -9,7 +8,7 @@ import java.util.Random;
  * It also checks to see if the cat position == player position.
  */
 
-public class Cat {
+class Cat {
     private int xPos;
     private int yPos;
 
@@ -18,50 +17,66 @@ public class Cat {
         this.yPos = yPos;
     }
 
-    int getXPos() {
+    private int getXPos() {
         return xPos;
     }
 
-    int getYPos() {
+    private int getYPos() {
         return yPos;
     }
 
-    // cat has an origin position - reset cat position
-    public void setPostionCat(int xPos, int yPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-    }
-
     // gets position of the cat in [x, y] form
-    public int[] getCatPosition(){
-        int[] pos = {getXPos(), getYPos()};
-        return pos;
+    int[] getCatPosition(){
+        return new int[]{getXPos(), getYPos()};
     }
 
     // generates random numbers from 0-3 to satisfy one of the four conditions in cat movement
     private int generateRandomNum(){
         Random rand = new Random();
-        int upperbound = 3;
-        int random = rand.nextInt(upperbound);
-        return random;
+        int upperBound = 3;
+        return rand.nextInt(upperBound);
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // FIXME: 2020-02-13 Bug where cat's previous position still has itself. // Fixed
-    void move(MazeElement[][] board){
+    // FIXME: 2020-02-14 Cat often backtracks. Make so cat can backtracks only when dead end or within 3 moves.
+    void move(MazeElement[][] board, Player player){
+        if (board[yPos][xPos] == MazeElement.PLAYER) {
+            player.setDead();
+            return;
+        }
+        int[] cheesePos = MazeGame.getCheesePosition();
         int randNum = generateRandomNum();
         switch (randNum) {
             case 0:
                 if (board[yPos-1][xPos] != MazeElement.WALL){
+                    if (board[yPos-1][xPos] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
+
                     board[yPos-1][xPos] = MazeElement.CAT;
-                    board[yPos][xPos] = MazeElement.PASSAGE;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     yPos--;
                 }
                 break;
 
             case 1:
                 if (board[yPos+1][xPos] != MazeElement.WALL){
+                    if (board[yPos+1][xPos] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
+
                     board[yPos+1][xPos] = MazeElement.CAT;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     yPos++;
                 }
@@ -69,7 +84,17 @@ public class Cat {
 
             case 2:
                 if (board[yPos][xPos-1] != MazeElement.WALL){
+                    if (board[yPos][xPos-1] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
+
                     board[yPos][xPos-1] = MazeElement.CAT;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos--;
                 }
@@ -77,19 +102,28 @@ public class Cat {
 
             case 3:
                 if (board[yPos][xPos+1] != MazeElement.WALL){
+                    if (board[yPos][xPos+1] == MazeElement.PLAYER){
+                        player.setDead();
+                    }
+
                     board[yPos][xPos+1] = MazeElement.CAT;
+
+                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+                        board[yPos][xPos] = MazeElement.CHEESE;
+                    } else {
+                        board[yPos][xPos] = MazeElement.PASSAGE;
+                    }
                     board[yPos][xPos] = MazeElement.PASSAGE;
                     xPos++;
                 }
                 break;
 
             default:
-                System.out.println("Please try one of the following to update cat position: 0(up), 1(down), 2(left), 3(right)");
                 break;
         }
     }
 
-    boolean isValidMove(MazeElement[][] board) {
+    private boolean isValidMove(MazeElement[][] board) {
         int randNum = generateRandomNum();
         switch (randNum) {
             case 0:
@@ -123,15 +157,5 @@ public class Cat {
         }
 
         return false;
-    }
-
-    // If cat position == player position, player isDead true.
-    public boolean isPlayerEaten(int[] playerPos){
-        return getCatPosition() == playerPos;
-    }
-
-    // Prints the position of the cat.
-    public void printCatPos(){
-        System.out.println("Cat position is : " + xPos + " " + yPos);
     }
 }
