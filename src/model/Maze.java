@@ -106,7 +106,6 @@ public class Maze {
            randY = random.nextInt(upperBoundY - lowerBound) + lowerBound;
            randX = random.nextInt(upperBoundX - lowerBound) + lowerBound;
         }
-        System.err.println("randX=" + randX + " randY=" + randY);
         maze[randY][randX] = MazeElement.PASSAGE;
     }
 

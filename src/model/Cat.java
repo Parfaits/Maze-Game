@@ -29,14 +29,6 @@ class Cat {
         return yPos;
     }
 
-    private int getPrevXPos(){
-        return prevXPos;
-    }
-
-    private int getPrevYPos(){
-        return prevYPos;
-    }
-
     // gets position of the cat in [x, y] form
     int[] getCatPosition(){
         return new int[]{getXPos(), getYPos()};
@@ -49,20 +41,9 @@ class Cat {
         return rand.nextInt(upperBound);
     }
 
-    void displayRand(int randNum){
-        System.out.println("random num: " + randNum);
-    }
-
     private void updatePrevPositions(){
         prevXPos = xPos;
         prevYPos = yPos;
-    }
-    // under construction
-    void displayPrevPosition(){
-        System.out.println(getPrevXPos() + " " + getPrevYPos());
-    }
-    void displayCurrentPosition(){
-        System.out.println(getXPos() + " " + getYPos());
     }
 
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
@@ -80,7 +61,7 @@ class Cat {
                         player.setDead();
                     }
 
-                    if (xPos != prevXPos && yPos-1 != prevXPos){
+                    if (yPos-1 != prevYPos){
                         moveUp(board, cheesePos);
 
                         updatePrevPositions();
@@ -95,7 +76,7 @@ class Cat {
                         player.setDead();
                     }
 
-                    if (xPos != prevXPos && yPos+1 != prevXPos){
+                    if (yPos+1 != prevYPos){
                         moveDown(board, cheesePos);
 
                         updatePrevPositions();
@@ -112,7 +93,7 @@ class Cat {
 
 
 
-                    if (xPos-1 != prevXPos && yPos != prevXPos){
+                    if (xPos-1 != prevXPos){
                         moveLeft(board, cheesePos);
 
                         updatePrevPositions();
@@ -129,7 +110,7 @@ class Cat {
 
 
 
-                    if (xPos+1 != prevXPos && yPos != prevXPos){
+                    if (xPos+1 != prevXPos){
                         moveRight(board, cheesePos);
 
                         updatePrevPositions();
