@@ -11,10 +11,14 @@ import java.util.Random;
 class Cat {
     private int xPos;
     private int yPos;
+    private int prevXPos;
+    private int prevYPos;
 
     Cat(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.prevXPos = xPos;
+        this.prevYPos = yPos;
     }
 
     private int getXPos() {
@@ -25,6 +29,14 @@ class Cat {
         return yPos;
     }
 
+    private int getPrevXPos(){
+        return prevXPos;
+    }
+
+    private int getPrevYPos(){
+        return prevYPos;
+    }
+
     // gets position of the cat in [x, y] form
     int[] getCatPosition(){
         return new int[]{getXPos(), getYPos()};
@@ -33,12 +45,27 @@ class Cat {
     // generates random numbers from 0-3 to satisfy one of the four conditions in cat movement
     private int generateRandomNum(){
         Random rand = new Random();
-        int upperBound = 3;
+        int upperBound = 4;
         return rand.nextInt(upperBound);
     }
 
+    void displayRand(int randNum){
+        System.out.println("random num: " + randNum);
+    }
+
+    private void updatePrevPositions(){
+        prevXPos = xPos;
+        prevYPos = yPos;
+    }
+    // under construction
+    void displayPrevPosition(){
+        System.out.println(getPrevXPos() + " " + getPrevYPos());
+    }
+    void displayCurrentPosition(){
+        System.out.println(getXPos() + " " + getYPos());
+    }
+
     // saves position of cat's x and y coordinates upon calling random - use setPosition() to reset position.
-    // FIXME: 2020-02-14 Cat often backtracks. Make so cat can backtracks only when dead end or within 3 moves.
     void move(MazeElement[][] board, Player player){
         if (board[yPos][xPos] == MazeElement.PLAYER) {
             player.setDead();
@@ -53,14 +80,12 @@ class Cat {
                         player.setDead();
                     }
 
-                    board[yPos-1][xPos] = MazeElement.CAT;
+                    if (xPos != prevXPos && yPos-1 != prevXPos){
+                        moveUp(board, cheesePos);
 
-                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
-                        board[yPos][xPos] = MazeElement.CHEESE;
-                    } else {
-                        board[yPos][xPos] = MazeElement.PASSAGE;
+                        updatePrevPositions();
+                        yPos--;
                     }
-                    yPos--;
                 }
                 break;
 
@@ -70,15 +95,12 @@ class Cat {
                         player.setDead();
                     }
 
-                    board[yPos+1][xPos] = MazeElement.CAT;
+                    if (xPos != prevXPos && yPos+1 != prevXPos){
+                        moveDown(board, cheesePos);
 
-                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
-                        board[yPos][xPos] = MazeElement.CHEESE;
-                    } else {
-                        board[yPos][xPos] = MazeElement.PASSAGE;
+                        updatePrevPositions();
+                        yPos++;
                     }
-                    board[yPos][xPos] = MazeElement.PASSAGE;
-                    yPos++;
                 }
                 break;
 
@@ -88,15 +110,14 @@ class Cat {
                         player.setDead();
                     }
 
-                    board[yPos][xPos-1] = MazeElement.CAT;
 
-                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
-                        board[yPos][xPos] = MazeElement.CHEESE;
-                    } else {
-                        board[yPos][xPos] = MazeElement.PASSAGE;
+
+                    if (xPos-1 != prevXPos && yPos != prevXPos){
+                        moveLeft(board, cheesePos);
+
+                        updatePrevPositions();
+                        xPos--;
                     }
-                    board[yPos][xPos] = MazeElement.PASSAGE;
-                    xPos--;
                 }
                 break;
 
@@ -106,15 +127,14 @@ class Cat {
                         player.setDead();
                     }
 
-                    board[yPos][xPos+1] = MazeElement.CAT;
 
-                    if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
-                        board[yPos][xPos] = MazeElement.CHEESE;
-                    } else {
-                        board[yPos][xPos] = MazeElement.PASSAGE;
+
+                    if (xPos+1 != prevXPos && yPos != prevXPos){
+                        moveRight(board, cheesePos);
+
+                        updatePrevPositions();
+                        xPos++;
                     }
-                    board[yPos][xPos] = MazeElement.PASSAGE;
-                    xPos++;
                 }
                 break;
 
@@ -123,39 +143,43 @@ class Cat {
         }
     }
 
-    private boolean isValidMove(MazeElement[][] board) {
-        int randNum = generateRandomNum();
-        switch (randNum) {
-            case 0:
-                if (board[yPos - 1][xPos] != MazeElement.WALL) {
-                    System.out.println("bro why");
-                    return true;
-                }
-                break;
+    private void moveRight(MazeElement[][] board, int[] cheesePos) {
+        board[yPos][xPos+1] = MazeElement.CAT;
 
-            case 1:
-                if (board[yPos + 1][xPos] != MazeElement.WALL) {
-                    return true;
-                }
-                break;
-
-            case 2:
-                if (board[yPos][xPos - 1] != MazeElement.WALL) {
-                    return true;
-
-                }
-                break;
-
-            case 3:
-                if (board[yPos][xPos + 1] != MazeElement.WALL) {
-                    return true;
-                }
-                break;
-
-            default:
-                return false;
+        if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+            board[yPos][xPos] = MazeElement.CHEESE;
+        } else {
+            board[yPos][xPos] = MazeElement.PASSAGE;
         }
+    }
 
-        return false;
+    private void moveLeft(MazeElement[][] board, int[] cheesePos) {
+        board[yPos][xPos-1] = MazeElement.CAT;
+
+        if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+            board[yPos][xPos] = MazeElement.CHEESE;
+        } else {
+            board[yPos][xPos] = MazeElement.PASSAGE;
+        }
+    }
+
+    private void moveDown(MazeElement[][] board, int[] cheesePos) {
+        board[yPos+1][xPos] = MazeElement.CAT;
+
+        if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+            board[yPos][xPos] = MazeElement.CHEESE;
+        } else {
+            board[yPos][xPos] = MazeElement.PASSAGE;
+        }
+    }
+
+    private void moveUp(MazeElement[][] board, int[] cheesePos) {
+        board[yPos-1][xPos] = MazeElement.CAT;
+
+        if (yPos == cheesePos[1] && xPos == cheesePos[0]) {
+            board[yPos][xPos] = MazeElement.CHEESE;
+        } else {
+            board[yPos][xPos] = MazeElement.PASSAGE;
+        }
     }
 }

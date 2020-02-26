@@ -11,8 +11,6 @@ import java.util.Random;
 
 public class MazeGame {
 
-    // TODO: 2020-02-13 Check all [][] if the values are placed in the right brackets [y][x] [width][length] 
-
     private MazeElement[][] board;
     private MazeElement[][] boardMask;
     private int width;
