@@ -11,7 +11,5 @@ public class Main {
         game.init(15, 20);
         TextUI textUI = new TextUI(game);
         textUI.show();
-
-
     }
 }

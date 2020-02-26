@@ -12,9 +12,6 @@ import java.util.Scanner;
 
 public class TextUI {
 
-    // TODO: 2020-02-13 Make UI more gud
-    // FIXME: 2020-02-13 UI is TRASH // Fixed UI
-
     private MazeGame game;
     private int width;
     private int length;
@@ -127,7 +124,7 @@ public class TextUI {
 
     private void printMaze(MazeElement[][] board, int[] player, int[] tom, int[] joe, int[] chad) {
         System.out.println("Maze:");
-        int width = game.getWidth();;
+        int width = game.getWidth();
         int length = game.getLength();
         int[] cheesePos = MazeGame.getCheesePosition();
         for (int i = 0; i < width; i++) {

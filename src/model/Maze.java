@@ -48,7 +48,6 @@ public class Maze {
         }
     }
 
-    // TODO: 2020-02-18 test plzzzzz there should be no 2x2 walls and the 4 corners should be open and no inf loop
     private void check2x2Walls() {
         for (int i = 2; i < width-3; i++) {
             for (int j = 2; j < length-3; j++) {
@@ -80,7 +79,6 @@ public class Maze {
         }
     }
 
-    // TODO: 2020-02-18 Plz test if it creates 2x2 passage also delete that print when done
     private void createCycles() {
         int upperBoundY = width - 2 + 1;
         int upperBoundX = length - 2 + 1;
